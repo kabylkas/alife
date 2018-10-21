@@ -1,2 +1,2 @@
 # alife
-Artificial life project. C++ model of synthetic life.
+Artificial life project. C++ model of a synthetic life.
