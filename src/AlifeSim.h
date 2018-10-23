@@ -8,7 +8,7 @@
 
 class AlifeSim {
   private:
-    std::vector<*Animal> animals;
+    std::vector<Animal*> animals;
     std::vector<Plant> plants;
     World world;
 
