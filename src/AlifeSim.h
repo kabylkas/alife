@@ -1,15 +1,16 @@
 #pragma once
 
-#include <vector>
+#include "SupportTypes.h"
 #include <string>
 #include "Animal.h"
 #include "Plant.h"
 #include "World.h"
+#include "LivingOrganisms.h"
+#include <iostream>
 
 class AlifeSim {
   private:
-    std::vector<Animal*> animals;
-    std::vector<Plant> plants;
+    LivingOrganisms liv_orgs;
     World world;
 
   public:

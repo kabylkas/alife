@@ -4,14 +4,14 @@ AlifeSim::AlifeSim() {
 
 }
 
-~AlifeSim::AlifeSim() {
+AlifeSim::~AlifeSim() {
 
 }
 
-AlifeSim::init(std::string cfg_file) {
-
+void AlifeSim::init(std::string cfg_file) {
+  std::cout << "Yes!" << std::endl;
 }
 
-AlifeSim::start() {
+void AlifeSim::start() {
 
 }

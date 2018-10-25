@@ -1,5 +1,8 @@
 #pragma once
 #include  "SupportTypes.h"
+#include "Brain.h"
+#include "Eyes.h"
+#include "World.h"
 
 class Animal {
   private:
@@ -16,6 +19,10 @@ class Animal {
     void eat();
     void turn_left();
     void turn_right();
+
   public:
+    Animal();
+    ~Animal();
     void take_action();
+    Brain* get_brain();
 };

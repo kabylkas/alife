@@ -1,12 +1,16 @@
 #pragma once
+
+#include "SupportTypes.h"
+#include "Animal.h"
+#include "Plant.h"
+#include "LivingOrganisms.h"
 #include <vector>
 
 class World {
   private:
     uint32_t world_width;
     uint32_t world_height;
-    std::vector<Animal*> *animals;
-    std::vecot<Plant> *plants;
+    LivingOrganisms *liv_orgs;
 
   public:
     World();
@@ -24,4 +28,4 @@ class World {
     uint32_t get_height();
     std::vector<Animal*>* get_animals();
     std::vector<Plant>* get_plants();
-}
+};
