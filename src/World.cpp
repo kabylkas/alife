@@ -42,16 +42,13 @@ void World::set_width(uint32_t width) {
 }
 
 void World::set_height(uint32_t height) {
-  this->height = heidth;
+  this->height = height;
 }
 
-void World::set_animals(std::vector<Animal*> *animals) {
-  this->animals = animals;
+void World::set_liv_orgs(LivingOrganisms* liv_orgs) {
+  this->liv_orgs = liv_orgs;
 }
 
-void World::set_plants(std::vector<Plant> *plants) {
-  this->plants = plants;
-}
 
 // gets
 uint32_t World::get_width() {
@@ -62,11 +59,8 @@ uint32_t World::get_height() {
   return this->height;
 }
 
-std::vector<Animal*>* World::get_animals() {
-  return this->animals;
-}
 
-std::vector<Plant>* World::get_plants() {
-  return this->plants;
+LivingOrganisms* World::get_liv_orgs() {
+  return this->liv_orgs;
 }
 

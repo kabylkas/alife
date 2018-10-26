@@ -1,12 +1,11 @@
 #pragma once
-#include "Animal.h"
 #include "Brain.h"
 
 class Animal;
 
 class Eyes {
   private:
-    Animal* owner;
+    Brain* brain;
 
   public:
     Eyes();

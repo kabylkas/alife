@@ -2,7 +2,8 @@
 #include  "SupportTypes.h"
 #include "Brain.h"
 #include "Eyes.h"
-#include "World.h"
+
+class World;
 
 class Animal {
   private:

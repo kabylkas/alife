@@ -14,5 +14,5 @@ void Eyes::observe() {
     input[i] = false;
   }
 
-  owner->get_brain()->remember(input);
+//  owner->get_brain()->remember(input);
 }
