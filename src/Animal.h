@@ -25,5 +25,7 @@ class Animal {
     Animal();
     ~Animal();
     void take_action();
+    void set_world(World* world);
     Brain* get_brain();
+
 };
