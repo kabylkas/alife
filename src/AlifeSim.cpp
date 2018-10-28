@@ -5,15 +5,21 @@ AlifeSim::AlifeSim() {
 }
 
 AlifeSim::~AlifeSim() {
-
+  //delete liv orgs
+  for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+    delete liv_orgs.animals[i];
+  }
 }
 
 bool AlifeSim::read_config_file(std::string cfg_file_name) {
   bool result = true;
-  ifstream cfg_file(cfg_file_name);
+  std::string error_msg = "";
+
+  std::ifstream cfg_file(cfg_file_name);
   if (cfg_file.is_open()) {
     std::string line;
-    while (std::get_line(cfg_file, line)) {
+    while (std::getline(cfg_file, line)) {
+      // Check for valid simulation variable
       bool simulation_time_found = false;
       bool num_carnivors_found   = false;
       bool num_herbivors_found   = false;
@@ -24,34 +30,63 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
       num_herbivors_found   = (line.find("num-herbivors") != std::string::npos);
       num_plants_found      = (line.find("num-plants") != std::string::npos);
 
-      if (simulation_time_found) {
-
-      } else if (num_carnivors_found) {
-
-      } else if (num_herbivors_found) {
-
-      } else if (num_plants_found) {
-
+      // Extract value
+      int eq_pos = line.find("=");
+      int temp_value = 0;
+      if (eq_pos != std::string::npos) {
+        std::string post_eq = line.substr(eq_pos + 1);
+        temp_value = std::stoi(post_eq);
       } else {
-        std::cout << "Unknown configuration variable: " << line << std::endl;
+        error_msg = "No equal sign in the line. Check config file.";
+        result = false;
+        break;
+      } 
+
+      // Assign to config file
+      if (simulation_time_found) {
+        sim_configs.time = temp_value;
+      } else if (num_carnivors_found) {
+        sim_configs.num_carnivors = temp_value;
+      } else if (num_herbivors_found) {
+        sim_configs.num_herbivors = temp_value;
+      } else if (num_plants_found) {
+        sim_configs.num_plants = temp_value;
+      } else {
+        error_msg = "Unknown configuration variable: "+line;
         result = false;
         break;
       }
     }
   } else {
-    std::cout << "Unable to open config file" << std::endl;
+    error_msg = "Unable to open config file";
     result = false;
   }
 
+  if (result) {
+    std::cout << "Successfully read config file..." << std::endl;
+  } else {
+    std::cout << error_msg << std::endl;
+  }
   return result;
 }
 
-void AlifeSim::init(std::string cfg_file) {
-  for (uint32_t i = 0; i < 100; i++) {
-    Animal* animal = new Animal();
-    liv_orgs.animals.push_back(animal);
-    Plant plant(0, 0);
-    liv_orgs.plants.push_back(plant);
+void AlifeSim::init(std::string cfg_file_name) {
+  // read in configs
+  bool got_variables = this->read_config_file(cfg_file_name);
+  if (got_variables) {
+    Animal* new_animal;
+    // instantiate carnivaor
+    for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
+      new_animal = new Carnivor();
+      liv_orgs.animals.push_back(new_animal);
+    }
+
+    // instantiate herbivors
+    for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
+      new_animal = new Herbivor();
+      liv_orgs.animals.push_back(new_animal);
+    }
+
   }
 }
 

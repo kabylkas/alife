@@ -2,6 +2,8 @@
 
 #include "SupportTypes.h"
 #include "Animal.h"
+#include "Carnivor.h"
+#include "Herbivor.h"
 #include "Plant.h"
 #include "World.h"
 #include "LivingOrganisms.h"
@@ -21,4 +23,5 @@ class AlifeSim {
     ~AlifeSim();
     void init(std::string cfg_file_name);
     void start();
+    Configs sim_configs;
 };

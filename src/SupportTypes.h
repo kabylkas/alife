@@ -7,6 +7,7 @@ typedef unsigned char           uint8_t;
 typedef signed short int        int16_t;
 typedef unsigned short int      uint16_t;
 typedef unsigned int            uint32_t;
+typedef unsigned long int       uint64_t;
 enum Direction {
   EAST,
   WEST,
@@ -36,9 +37,9 @@ struct Offsets {
   const int west_y_offsets[14] = {-2, -1, 0,  1,  2,  -2, -2, 2,  2,  -1, -1, 0,  1,  1};
 };
 
-struct Config {
+struct Configs {
   uint64_t time;
   uint32_t num_carnivors;
   uint32_t num_herbivors;
   uint32_t num_plants;
-}
+};

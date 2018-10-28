@@ -3,7 +3,7 @@
 int main() {
   AlifeSim simulation;
 
-  simulation.init("./simulation.cfg");
+  simulation.init("./src/simulation.cfg");
 
   return 0;
 }

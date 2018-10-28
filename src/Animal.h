@@ -6,7 +6,7 @@
 class World;
 
 class Animal {
-  private:
+  protected:
     World* my_world;
     Eyes eyes;
     Brain brain;
