@@ -1,6 +1,7 @@
 #pragma once
 
 #define MEMORY_SIZE 12
+#define DEBUG
 
 typedef signed char             int8_t;
 typedef unsigned char           uint8_t;

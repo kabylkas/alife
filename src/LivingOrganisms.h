@@ -4,6 +4,10 @@
 #include "Animal.h"
 #include "Plant.h"
 
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 class Animal;
 class Plant;
 

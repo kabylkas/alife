@@ -83,12 +83,14 @@ void World::init(uint32_t height, uint32_t width) {
 
 void World::place_agent(AgentType type, uint32_t* x, uint32_t* y) {
   // find empty spot on the plabe
-  uint32_t temp_x = 0;
-  uint32_t temp_y = 0;
-  while (!positions[type][temp_y][temp_x]) {
+  uint32_t temp_x;
+  uint32_t temp_y;
+  do {
     temp_x = rand() % this->width;
     temp_y = rand() % this->height;
-  }
+  } while (positions[CARNIVOR][temp_y][temp_x] ||
+           positions[HERBIVOR][temp_y][temp_x] ||
+           positions[PLANT][temp_y][temp_x]);
 
   // place an agent to the spot
   positions[type][temp_y][temp_x] = true;
@@ -126,3 +128,35 @@ LivingOrganisms* World::get_liv_orgs() {
 }
 
 //others
+
+// debug
+void World::draw_positions(AgentType type) {
+  char type_char;
+  switch (type) {
+    case CARNIVOR:
+      type_char = 'C';
+      break;
+    case HERBIVOR:
+      type_char = 'H';
+      break;
+    case PLANT:
+      type_char = 'P';
+      break;
+    default:
+      break;
+  };
+
+  for (uint32_t i = 0; i < this->height; i++) {
+    for (uint32_t j = 0; j < this->width; j++) {
+      char to_print;
+      if (positions[type][i][j]) {
+        to_print = type_char;
+      } else {
+        to_print = '.';
+      }
+      std::cout << to_print << " ";
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}

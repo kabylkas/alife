@@ -6,6 +6,7 @@
 #include <map>
 
 #include <cstdlib> //rand()
+#include <iostream>
 
 class World {
   private:
@@ -31,4 +32,7 @@ class World {
     uint32_t get_width();
     uint32_t get_height();
     LivingOrganisms* get_liv_orgs();
+
+    // debug
+    void draw_positions(AgentType type);
 };

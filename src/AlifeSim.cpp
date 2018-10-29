@@ -5,10 +5,7 @@ AlifeSim::AlifeSim() {
 }
 
 AlifeSim::~AlifeSim() {
-  //delete liv orgs
-  for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-    delete liv_orgs.animals[i];
-  }
+
 }
 
 bool AlifeSim::read_config_file(std::string cfg_file_name) {
@@ -108,6 +105,9 @@ void AlifeSim::init(std::string cfg_file_name) {
 
       liv_orgs.animals.push_back(new_animal);
     }
+    #ifdef DEBUG
+      world.draw_positions(CARNIVOR);
+    #endif
 
     // init herbivors
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
@@ -130,6 +130,9 @@ void AlifeSim::init(std::string cfg_file_name) {
 
       liv_orgs.animals.push_back(new_animal);
     }
+    #ifdef DEBUG
+      world.draw_positions(HERBIVOR);
+    #endif
 
     // init herbivors
     Plant temp_plant;
@@ -144,8 +147,11 @@ void AlifeSim::init(std::string cfg_file_name) {
       temp_plant.set_y(y);
       temp_plant.set_nutrition_level(nutrition_level);
 
-      liv_orgs.animals.push_back(new_animal);
+      liv_orgs.plants.push_back(temp_plant);
     }
+    #ifdef DEBUG
+      world.draw_positions(PLANT);
+    #endif
   }
 }
 
