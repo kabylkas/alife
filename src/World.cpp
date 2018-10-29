@@ -16,6 +16,8 @@ World::~World() {
   delete [] positions[PLANT];
 }
 
+
+// others
 uint32_t World::wrap_x(int x) {
   uint32_t result;
 
@@ -44,34 +46,6 @@ uint32_t World::wrap_y(int y) {
   return result;
 }
 
-// sets
-void World::set_width(uint32_t width) {
-  this->width = width;
-}
-
-void World::set_height(uint32_t height) {
-  this->height = height;
-}
-
-void World::set_liv_orgs(LivingOrganisms* liv_orgs) {
-  this->liv_orgs = liv_orgs;
-}
-
-
-// gets
-uint32_t World::get_width() {
-  return this->width;
-}
-
-uint32_t World::get_height() {
-  return this->height;
-}
-
-LivingOrganisms* World::get_liv_orgs() {
-  return this->liv_orgs;
-}
-
-//others
 void World::init(uint32_t height, uint32_t width) {
   this->height = height;
   this->width = width;
@@ -104,6 +78,51 @@ void World::init(uint32_t height, uint32_t width) {
     for (uint32_t j = 0; j < width; j++) {
       this->positions[PLANT][i][j] = false;
     }
-  }
-  
+  }  
 }
+
+void World::place_agent(AgentType type, uint32_t* x, uint32_t* y) {
+  // find empty spot on the plabe
+  uint32_t temp_x = 0;
+  uint32_t temp_y = 0;
+  while (!positions[type][temp_y][temp_x]) {
+    temp_x = rand() % this->width;
+    temp_y = rand() % this->height;
+  }
+
+  // place an agent to the spot
+  positions[type][temp_y][temp_x] = true;
+
+  // return values
+  *x = temp_x;
+  *y = temp_y;
+}
+
+// sets
+void World::set_width(uint32_t width) {
+  this->width = width;
+}
+
+void World::set_height(uint32_t height) {
+  this->height = height;
+}
+
+void World::set_liv_orgs(LivingOrganisms* liv_orgs) {
+  this->liv_orgs = liv_orgs;
+}
+
+
+// gets
+uint32_t World::get_width() {
+  return this->width;
+}
+
+uint32_t World::get_height() {
+  return this->height;
+}
+
+LivingOrganisms* World::get_liv_orgs() {
+  return this->liv_orgs;
+}
+
+//others

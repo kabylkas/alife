@@ -87,18 +87,65 @@ void AlifeSim::init(std::string cfg_file_name) {
 
     // init the agents
     Animal* new_animal;
-    // instantiate carnivaor
+    // init carnivaor
     for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
+      // allocate agent
       new_animal = new Carnivor();
+
+      // get calculate initial member variable values
+      uint32_t x, y;
+      Direction facing;
+      uint16_t energy_level;
+      this->world.place_agent(CARNIVOR, &x, &y);
+      facing = (Direction)(rand() % 4);
+      energy_level = 100;
+
+      // set initial values
+      new_animal->set_x(x);
+      new_animal->set_y(y);
+      new_animal->set_direction(facing);
+      new_animal->set_energy(energy_level);
+
       liv_orgs.animals.push_back(new_animal);
     }
 
-    // instantiate herbivors
+    // init herbivors
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
+      // allocate agent
       new_animal = new Herbivor();
+
+      // get calculate initial member variable values
+      uint32_t x, y;
+      Direction facing;
+      uint16_t energy_level;
+      this->world.place_agent(HERBIVOR, &x, &y);
+      facing = (Direction)(rand() % 4);
+      energy_level = 100;
+
+      // set initial values
+      new_animal->set_x(x);
+      new_animal->set_y(y);
+      new_animal->set_direction(facing);
+      new_animal->set_energy(energy_level);
+
       liv_orgs.animals.push_back(new_animal);
     }
 
+    // init herbivors
+    Plant temp_plant;
+    for (uint32_t i = 0; i < sim_configs.num_plants; i++) {
+      // get calculate initial member variable values
+      uint32_t x, y;
+      uint16_t nutrition_level;
+      this->world.place_agent(PLANT, &x, &y);
+      
+      // set initial values
+      temp_plant.set_x(x);
+      temp_plant.set_y(y);
+      temp_plant.set_nutrition_level(nutrition_level);
+
+      liv_orgs.animals.push_back(new_animal);
+    }
   }
 }
 

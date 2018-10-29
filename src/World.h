@@ -2,7 +2,10 @@
 
 #include "SupportTypes.h"
 #include "LivingOrganisms.h"
+
 #include <map>
+
+#include <cstdlib> //rand()
 
 class World {
   private:
@@ -17,6 +20,8 @@ class World {
     uint32_t wrap_x(int x);
     uint32_t wrap_y(int y);
     void init(uint32_t height, uint32_t width);
+    void place_agent(AgentType type, uint32_t* x, uint32_t* y);
+
     // sets
     void set_width(uint32_t width);
     void set_height(uint32_t height);

@@ -31,10 +31,30 @@ void Animal::take_action() {
 
 }
 
+//sets
+void Animal::set_world(World* world) {
+  this->my_world = world;
+}
+
+void Animal::set_x(uint32_t x) {
+  this->x = x;
+}
+
+void Animal::set_y(uint32_t y) {
+  this->y = y;
+}
+
+void Animal::set_direction(Direction facing) {
+  this->facing = facing;
+}
+
+void Animal::set_energy(uint16_t energy_level) {
+  this->energy_level = energy_level;
+}
+
+
+//gets
 Brain* Animal::get_brain() {
   return &(this->brain);
 }
 
-void Animal::set_world(World* world) {
-  this->my_world = world;
-}

@@ -3,11 +3,16 @@
 
 class Plant {
   private:
-    uint16_t x;
-    uint16_t y;
+    uint32_t x;
+    uint32_t y;
     uint16_t nutrition_level;
 
   public:
-    Plant(uint16_t x, uint16_t y);
+    Plant();
     ~Plant();
+
+    //sets
+    void set_x(uint32_t x);
+    void set_y(uint32_t y);
+    void set_nutrition_level(uint16_t nutrition_level);
 };
