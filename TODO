@@ -1,0 +1,3 @@
+Put agents into right places:
+* create "planes" in the world that will hold positions of all agents
+* in init initialize positions

@@ -15,6 +15,12 @@ enum Direction {
   NORTH
 };
 
+enum AgentType {
+  CARNIVOR,
+  HERBIVOR,
+  PLANT
+};
+
 struct Offsets {
   /////////////////
   // f1 f2 f3 f4 f5
@@ -42,4 +48,6 @@ struct Configs {
   uint32_t num_carnivors;
   uint32_t num_herbivors;
   uint32_t num_plants;
+  uint32_t world_height;
+  uint32_t world_width;
 };
