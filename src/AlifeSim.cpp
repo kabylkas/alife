@@ -156,5 +156,9 @@ void AlifeSim::init(std::string cfg_file_name) {
 }
 
 void AlifeSim::start() {
-
+  for (uint64_t current_time = 0; current_time < sim_configs.time; current_time++) {
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      liv_orgs.animals[i]->take_action();
+    }
+  }
 }

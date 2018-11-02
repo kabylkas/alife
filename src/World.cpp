@@ -109,11 +109,6 @@ void World::set_height(uint32_t height) {
   this->height = height;
 }
 
-void World::set_liv_orgs(LivingOrganisms* liv_orgs) {
-  this->liv_orgs = liv_orgs;
-}
-
-
 // gets
 uint32_t World::get_width() {
   return this->width;
@@ -121,10 +116,6 @@ uint32_t World::get_width() {
 
 uint32_t World::get_height() {
   return this->height;
-}
-
-LivingOrganisms* World::get_liv_orgs() {
-  return this->liv_orgs;
 }
 
 //others

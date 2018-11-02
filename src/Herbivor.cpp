@@ -9,5 +9,5 @@ Herbivor::~Herbivor() {
 }
 
 void Herbivor::eat() {
-
+  std::cout << "Herbivor is eating" << std::endl;
 }

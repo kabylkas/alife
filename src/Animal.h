@@ -17,7 +17,7 @@ class Animal {
 
     // Actions
     void move();
-    void eat();
+    virtual void eat();
     void turn_left();
     void turn_right();
 
