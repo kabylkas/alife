@@ -1,3 +1,2 @@
-1) test if positioning works correctly
-
-2) create a simulation loop
+1) Check validity of observe function in eyes
+2) Clean up the observe function for better readibility
