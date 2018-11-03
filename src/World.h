@@ -11,11 +11,12 @@ class World {
   private:
     uint32_t width;
     uint32_t height;
-    std::map<AgentType, bool**> positions;
 
   public:
     World();
     ~World();
+    std::map<AgentType, bool**> positions;
+
     uint32_t wrap_x(int x);
     uint32_t wrap_y(int y);
     void init(uint32_t height, uint32_t width);

@@ -14,7 +14,7 @@ class Eyes {
   public:
     Eyes();
     ~Eyes();
-    void observe(Direction facing);
+    void observe(Direction facing, uint32_t x, uint32_t y);
 
     //sets
     void set_brain(Brain* brain);
