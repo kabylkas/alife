@@ -32,4 +32,5 @@ class World {
 
     // debug
     void draw_positions(AgentType type);
+    void draw_positions();
 };

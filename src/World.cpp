@@ -1,7 +1,7 @@
 #include "World.h"
 
 World::World() {
-
+  srand(SEED);
 }
 
 World::~World() {
@@ -148,6 +148,36 @@ void World::draw_positions(AgentType type) {
       std::cout << to_print << " ";
     }
     std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}
+
+void World::draw_positions() {
+  uint8_t c_type_char = 'C';
+  uint8_t h_type_char = 'H';
+  uint8_t p_type_char = 'P';
+
+  for (uint32_t i = 0; i < this->width; i++) {
+    std::cout << i % 10 << " ";
+  }
+  std::cout << std::endl;
+
+  for (uint32_t i = 0; i < this->height; i++) {
+    for (uint32_t j = 0; j < this->width; j++) {
+      char to_print;
+      if (positions[CARNIVOR][i][j]) {
+        to_print = c_type_char;
+      } else if (positions[HERBIVOR][i][j]){
+        to_print = h_type_char;;
+      } else if (positions[PLANT][i][j]) {
+        to_print = p_type_char;
+      } else {
+        to_print = '.';
+      }
+
+      std::cout << to_print << " ";
+    }
+    std::cout << i << std::endl;
   }
   std::cout << std::endl;
 }

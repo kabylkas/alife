@@ -30,7 +30,7 @@ void Animal::turn_right() {
 }
 
 void Animal::take_action() {
-  this->eyes.observe(this->facing, this->x, this->y);
+  this->eyes.observe(EAST, 22, 6);
 }
 
 //sets

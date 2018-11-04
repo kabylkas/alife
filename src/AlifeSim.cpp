@@ -106,9 +106,6 @@ void AlifeSim::init(std::string cfg_file_name) {
 
       liv_orgs.animals.push_back(new_animal);
     }
-    #ifdef DEBUG
-      world.draw_positions(CARNIVOR);
-    #endif
 
     // init herbivors
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
@@ -132,9 +129,6 @@ void AlifeSim::init(std::string cfg_file_name) {
 
       liv_orgs.animals.push_back(new_animal);
     }
-    #ifdef DEBUG
-      world.draw_positions(HERBIVOR);
-    #endif
 
     // init herbivors
     Plant temp_plant;
@@ -152,7 +146,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       liv_orgs.plants.push_back(temp_plant);
     }
     #ifdef DEBUG
-      world.draw_positions(PLANT);
+      world.draw_positions();
     #endif
   }
 }
