@@ -5,6 +5,8 @@ Animal::Animal() {
   this->y = 0;
   this->facing = EAST;
   this->energy_level = 100;
+
+  this->eyes.set_brain(&brain);
 }
 
 Animal::~Animal() {
@@ -28,12 +30,13 @@ void Animal::turn_right() {
 }
 
 void Animal::take_action() {
-
+  this->eyes.observe(this->facing, this->x, this->y);
 }
 
 //sets
 void Animal::set_world(World* world) {
   this->my_world = world;
+  this->eyes.set_world(world);
 }
 
 void Animal::set_x(uint32_t x) {

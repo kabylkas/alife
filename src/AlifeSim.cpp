@@ -102,6 +102,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       new_animal->set_y(y);
       new_animal->set_direction(facing);
       new_animal->set_energy(energy_level);
+      new_animal->set_world(&(this->world));
 
       liv_orgs.animals.push_back(new_animal);
     }
@@ -127,6 +128,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       new_animal->set_y(y);
       new_animal->set_direction(facing);
       new_animal->set_energy(energy_level);
+      new_animal->set_world(&(this->world));
 
       liv_orgs.animals.push_back(new_animal);
     }
