@@ -22,11 +22,9 @@ uint32_t World::wrap_x(int x) {
   uint32_t result;
 
   if (x < 0) {
-    result = this->width - 1;
-  } else if (x >= this->width) {
-    result = 0;
+    result = this->width - x;
   } else {
-    result = x;
+    result = x % this->width;
   }
 
   return result;
@@ -36,11 +34,9 @@ uint32_t World::wrap_y(int y) {
   uint32_t result;
 
   if (y < 0) {
-    result = this->height - 1;
-  } else if (y >= this->height) {
-    result = 0;
+    result = this->height - y;
   } else {
-    result = y;
+    result = y % this->height;
   }
 
   return result;
