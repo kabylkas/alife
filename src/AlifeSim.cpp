@@ -93,7 +93,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent(CARNIVOR, &x, &y);
+      this->world.place_agent_rand(CARNIVOR, &x, &y);
       facing = (Direction)(rand() % 4);
       energy_level = 100;
 
@@ -116,7 +116,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent(HERBIVOR, &x, &y);
+      this->world.place_agent_rand(HERBIVOR, &x, &y);
       facing = (Direction)(rand() % 4);
       energy_level = 100;
 
@@ -136,7 +136,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       // get calculate initial member variable values
       uint32_t x, y;
       uint16_t nutrition_level;
-      this->world.place_agent(PLANT, &x, &y);
+      this->world.place_agent_rand(PLANT, &x, &y);
       
       // set initial values
       temp_plant.set_x(x);

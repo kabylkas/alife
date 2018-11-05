@@ -81,7 +81,7 @@ void World::init(uint32_t height, uint32_t width) {
   }  
 }
 
-void World::place_agent(AgentType type, uint32_t* x, uint32_t* y) {
+void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
   // find empty spot on the plabe
   uint32_t temp_x;
   uint32_t temp_y;
@@ -100,6 +100,13 @@ void World::place_agent(AgentType type, uint32_t* x, uint32_t* y) {
   *y = temp_y;
 }
 
+void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
+  if (positions[CARNIVOR][y][x] || positions[HERBIVOR][y][x] || positions[PLANT][y][x]) {
+    assert(false, "Place is taken");
+  } else {
+    positions[type][y][x] = true;
+  }
+}
 // sets
 void World::set_width(uint32_t width) {
   this->width = width;

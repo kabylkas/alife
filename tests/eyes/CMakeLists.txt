@@ -1,17 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Alife)
+project(eyes_test)
 
-set (FLAGS "-g -std=c++17")
-set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${FLAGS})
-
-set (SRC_DIR ./src)
-
-include_directories(${SRC_DIR})
+set (SRC_DIR ../../src)
 
 set (SIM_HDR 
   ${SRC_DIR}/SupportTypes.h
-  ${SRC_DIR}/AlifeSim.h
   ${SRC_DIR}/Animal.h
   ${SRC_DIR}/Carnivor.h
   ${SRC_DIR}/Herbivor.h
@@ -23,8 +17,6 @@ set (SIM_HDR
 )
 
 set (SIM_SRC 
-  ${SRC_DIR}/main.cpp
-  ${SRC_DIR}/AlifeSim.cpp
   ${SRC_DIR}/Animal.cpp
   ${SRC_DIR}/Carnivor.cpp
   ${SRC_DIR}/Herbivor.cpp
@@ -34,7 +26,4 @@ set (SIM_SRC
   ${SRC_DIR}/Plant.cpp
   ${SRC_DIR}/World.cpp
 )
-
-add_subdirectory(tests)
-
-add_executable(alife ${SIM_HDR} ${SIM_SRC})
+add_executable(eyes_test eyes_test.cpp ${SIM_HDR} ${SIM_SRC})
