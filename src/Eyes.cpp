@@ -38,6 +38,9 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
     }
     std::cout << std::endl;
   #endif
+
+  // remember
+  this->brain->remember(input);
 }
 
 //sets

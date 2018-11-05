@@ -2,9 +2,10 @@
 #include <map>
 #include <vector>
 
-#define SEED        2
-#define INPUT_NUM   4
-#define MEMORY_SIZE 12
+#define SEED           2
+#define INPUT_NUM      4
+#define MEMORY_SIZE    12
+#define NUM_AGENT_TYPE 3
 #define DEBUG
 
 typedef signed char             int8_t;

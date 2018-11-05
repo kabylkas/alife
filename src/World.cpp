@@ -102,11 +102,22 @@ void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
 
 void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
   if (positions[CARNIVOR][y][x] || positions[HERBIVOR][y][x] || positions[PLANT][y][x]) {
-    assert(false, "Place is taken");
+    std::cout <<"Place is taken" << std::endl;
   } else {
     positions[type][y][x] = true;
   }
 }
+
+void World::clear_positions() {
+  for (uint8_t type = 0; type < NUM_AGENT_TYPE; type++) {
+    for (uint32_t i = 0; i < this->height; i++) {
+      for (uint32_t j = 0; j < this->width; j++) {
+        positions[(AgentType)type][i][j] = false;
+      }
+    }
+  }
+}
+
 // sets
 void World::set_width(uint32_t width) {
   this->width = width;

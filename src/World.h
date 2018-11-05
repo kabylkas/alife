@@ -22,6 +22,7 @@ class World {
     void init(uint32_t height, uint32_t width);
     void place_agent_rand(AgentType type, uint32_t* x, uint32_t* y);
     void place_agent_to(AgentType type, uint32_t x, uint32_t y);
+    void clear_positions();
 
     // sets
     void set_width(uint32_t width);
