@@ -21,7 +21,7 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
 
   // observe
   // check front
-  for (uint8_t input_type = 0; input_type < INPUT_NUM; input_type++) {
+  for (uint8_t input_type = 0; input_type < NUM_INPUT; input_type++) {
     for (uint8_t agent_type = 0; agent_type < 3; agent_type++) {
       for (uint8_t i = 0; i < this->offsets.x_offsets[facing].input[input_type].size(); i++) {
         uint32_t x_to_check = this->world->wrap_x(x + this->offsets.x_offsets[facing].input[input_type][i]);

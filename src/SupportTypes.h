@@ -2,12 +2,19 @@
 #include <map>
 #include <vector>
 
-#define SEED           2
-#define INPUT_NUM      4
-#define MEMORY_SIZE    12
-#define NUM_AGENT_TYPE 3
-#define NUM_ACTIONS    4
+// Defines
 #define DEBUG
+
+#define SEED           2
+#define MEMORY_SIZE    12
+
+#define D_MIN          -5
+#define D_MAX          5
+
+#define NUM_AGENT_TYPE 3
+#define NUM_ACTION     4
+#define NUM_INPUT      4
+#define NUM_OFFSET     15
 
 typedef signed char             int8_t;
 typedef unsigned char           uint8_t;
@@ -44,7 +51,7 @@ class Offsets {
   //                 f1  f2  f3  f4  f5  l1  l2  r1  r2  p1  p2  p3  p4  p5
   class Location {
     public:
-      std::vector<int> input[INPUT_NUM];
+      std::vector<int> input[NUM_INPUT];
 
       Location() {};
       ~Location() {};
@@ -64,14 +71,14 @@ class Offsets {
       this->x_offsets[WEST];
       this->y_offsets[WEST];
 
-      int south_x_offsets[14]   = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/  2,  2, /*Right:*/ -2, -2, /*Prox:*/  1,  1,  0, -1, -1};
-      int south_y_offsets[14]   = {/*Front:*/  2,  2,  2,  2,  2, /*Left:*/  0,  1, /*Right:*/  0,  1, /*Prox:*/  0,  1,  1,  1,  0};
-      int east_x_offsets[14]    = {/*Front:*/  2,  2,  2,  2,  2, /*Left:*/  0,  1, /*Right:*/  0,  1, /*Prox:*/  0,  1,  1,  1,  0};
-      int east_y_offsets[14]    = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/ -2, -2, /*Right:*/  2,  2, /*Prox:*/ -1, -1,  0,  1,  1};
-      int north_x_offsets[14]   = {/*Front:*/ -2, -1,  0,  1,  2, /*Left:*/ -2, -2, /*Right:*/  2,  2, /*Prox:*/ -1, -1,  0,  1,  1};
-      int north_y_offsets[14]   = {/*Front:*/ -2, -2, -2, -2, -2, /*Left:*/  0, -1, /*Right:*/  0, -1, /*Prox:*/  0, -1, -1, -1,  0};
-      int west_x_offsets[14]    = {/*Front:*/ -2, -2, -2, -2, -2, /*Left:*/  0, -1, /*Right:*/  0, -1, /*Prox:*/  0, -1, -1, -1,  0};
-      int west_y_offsets[14]    = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/  2,  2, /*Right:*/ -2, -2, /*Prox:*/  1,  1,  0, -1, -1};
+      int south_x_offsets[NUM_OFFSET]   = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/  2,  2, /*Right:*/ -2, -2, /*Prox:*/  1,  1,  0, -1, -1,  0};
+      int south_y_offsets[NUM_OFFSET]   = {/*Front:*/  2,  2,  2,  2,  2, /*Left:*/  0,  1, /*Right:*/  0,  1, /*Prox:*/  0,  1,  1,  1,  0,  0};
+      int east_x_offsets[NUM_OFFSET]    = {/*Front:*/  2,  2,  2,  2,  2, /*Left:*/  0,  1, /*Right:*/  0,  1, /*Prox:*/  0,  1,  1,  1,  0,  0};
+      int east_y_offsets[NUM_OFFSET]    = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/ -2, -2, /*Right:*/  2,  2, /*Prox:*/ -1, -1,  0,  1,  1,  0};
+      int north_x_offsets[NUM_OFFSET]   = {/*Front:*/ -2, -1,  0,  1,  2, /*Left:*/ -2, -2, /*Right:*/  2,  2, /*Prox:*/ -1, -1,  0,  1,  1,  0};
+      int north_y_offsets[NUM_OFFSET]   = {/*Front:*/ -2, -2, -2, -2, -2, /*Left:*/  0, -1, /*Right:*/  0, -1, /*Prox:*/  0, -1, -1, -1,  0,  0};
+      int west_x_offsets[NUM_OFFSET]    = {/*Front:*/ -2, -2, -2, -2, -2, /*Left:*/  0, -1, /*Right:*/  0, -1, /*Prox:*/  0, -1, -1, -1,  0,  0};
+      int west_y_offsets[NUM_OFFSET]    = {/*Front:*/  2,  1,  0, -1, -2, /*Left:*/  2,  2, /*Right:*/ -2, -2, /*Prox:*/  1,  1,  0, -1, -1,  0};
 
       for (uint8_t i = 0; i < 5; i++) {
         this->x_offsets[NORTH].input[0].push_back(north_x_offsets[i]);
@@ -106,7 +113,7 @@ class Offsets {
         this->y_offsets[WEST].input[2].push_back(west_y_offsets[i]);
       }
 
-      for (uint8_t i = 9; i < 14; i++) {
+      for (uint8_t i = 9; i < NUM_INPUT; i++) {
         this->x_offsets[NORTH].input[3].push_back(north_x_offsets[i]);
         this->y_offsets[NORTH].input[3].push_back(north_y_offsets[i]);
         this->x_offsets[EAST].input[3].push_back(east_x_offsets[i]);

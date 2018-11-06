@@ -1,3 +1,1 @@
-1) allow agents share cells
-2) add current position to proximity
-
+1) validate brain - write a unit test

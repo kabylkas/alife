@@ -81,7 +81,6 @@ void AlifeSim::init(std::string cfg_file_name) {
   if (got_variables) {
     // init the world
     this->world.init(sim_configs.world_height, sim_configs.world_width);
-    this->world.set_liv_orgs(&(this->liv_orgs));
 
     // init the agents
     Animal* new_animal;
@@ -94,7 +93,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent_rand(CARNIVOR, &x, &y);
+      this->world.place_agent_rand(CARNIVOR, &x, &y, true);
       facing = (Direction)(rand() % 4);
       energy_level = 100;
 
@@ -117,7 +116,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent_rand(HERBIVOR, &x, &y);
+      this->world.place_agent_rand(HERBIVOR, &x, &y, true);
       facing = (Direction)(rand() % 4);
       energy_level = 100;
 
@@ -137,7 +136,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       // get calculate initial member variable values
       uint32_t x, y;
       uint16_t nutrition_level;
-      this->world.place_agent_rand(PLANT, &x, &y);
+      this->world.place_agent_rand(PLANT, &x, &y, true);
       
       // set initial values
       temp_plant.set_x(x);
@@ -155,7 +154,7 @@ void AlifeSim::init(std::string cfg_file_name) {
 void AlifeSim::start() {
   for (uint64_t current_time = 0; current_time < sim_configs.time; current_time++) {
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      liv_orgs.animals[i]->take_action();
+      liv_orgs.animals[i]->take_action(&liv_orgs);
     }
   }
 }

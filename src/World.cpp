@@ -22,7 +22,7 @@ uint32_t World::wrap_x(int x) {
   uint32_t result;
 
   if (x < 0) {
-    result = this->width - x;
+    result = this->width + x;
   } else {
     result = x % this->width;
   }
@@ -34,7 +34,7 @@ uint32_t World::wrap_y(int y) {
   uint32_t result;
 
   if (y < 0) {
-    result = this->height - y;
+    result = this->height + y;
   } else {
     result = y % this->height;
   }
@@ -77,16 +77,22 @@ void World::init(uint32_t height, uint32_t width) {
   }  
 }
 
-void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
+void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y, bool allow_share) {
   // find empty spot on the plabe
   uint32_t temp_x;
   uint32_t temp_y;
-  do {
+
+  if (allow_share) {
     temp_x = rand() % this->width;
     temp_y = rand() % this->height;
-  } while (positions[CARNIVOR][temp_y][temp_x] ||
-           positions[HERBIVOR][temp_y][temp_x] ||
-           positions[PLANT][temp_y][temp_x]);
+  } else {
+    do {
+      temp_x = rand() % this->width;
+      temp_y = rand() % this->height;
+    } while (positions[CARNIVOR][temp_y][temp_x] ||
+             positions[HERBIVOR][temp_y][temp_x] ||
+             positions[PLANT][temp_y][temp_x]);
+  }
 
   // place an agent to the spot
   positions[type][temp_y][temp_x] = true;
@@ -121,10 +127,6 @@ void World::set_width(uint32_t width) {
 
 void World::set_height(uint32_t height) {
   this->height = height;
-}
-
-void World::set_liv_orgs(LivingOrganisms* liv_orgs) {
-  this->liv_orgs = liv_orgs;
 }
 
 // gets

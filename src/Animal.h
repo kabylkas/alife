@@ -2,12 +2,10 @@
 #include  "SupportTypes.h"
 #include "Brain.h"
 #include "Eyes.h"
-class World;
-class Eyes;
+#include "LivingOrganisms.h"
 
 class Animal {
   protected:
-    World* my_world;
     Eyes eyes;
     Brain brain;
     uint32_t x;
@@ -17,7 +15,7 @@ class Animal {
 
     // Actions
     void move();
-    virtual void eat();
+    virtual void eat() {};
     void turn_left();
     void turn_right();
 
@@ -25,7 +23,7 @@ class Animal {
     Animal();
     ~Animal();
     // others
-    void take_action();
+    void take_action(LivingOrganisms* liv_orgs);
 
     //sets
     void set_world(World* world);
