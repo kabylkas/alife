@@ -81,6 +81,7 @@ void AlifeSim::init(std::string cfg_file_name) {
   if (got_variables) {
     // init the world
     this->world.init(sim_configs.world_height, sim_configs.world_width);
+    this->world.set_liv_orgs(&(this->liv_orgs));
 
     // init the agents
     Animal* new_animal;

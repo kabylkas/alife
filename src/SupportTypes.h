@@ -6,6 +6,7 @@
 #define INPUT_NUM      4
 #define MEMORY_SIZE    12
 #define NUM_AGENT_TYPE 3
+#define NUM_ACTIONS    4
 #define DEBUG
 
 typedef signed char             int8_t;
@@ -26,6 +27,13 @@ enum AgentType {
   HERBIVOR,
   CARNIVOR,
   PLANT
+};
+
+enum ActionType {
+  EAT, 
+  TURN_LEFT,
+  TURN_RIGHT,
+  MOVE
 };
 
 class Offsets {

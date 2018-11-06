@@ -8,7 +8,7 @@ Brain::~Brain() {
 
 }
 
-uint8_t Brain::decide() {
+ActionType Brain::decide() {
 
 }
 

@@ -17,9 +17,7 @@ void Animal::move() {
 
 }
 
-void Animal::eat() {
-
-}
+void Animal::eat() {}
 
 void Animal::turn_left() {
 
@@ -30,7 +28,32 @@ void Animal::turn_right() {
 }
 
 void Animal::take_action() {
+  // observe, remember the inputs
   this->eyes.observe(this->facing, this->x, this->y);
+  
+  // decide based on observation
+  ActionType decision = this->brain.decide();
+  switch (decision) {
+    case EAT:
+      this->eat();
+      break;
+
+    case TURN_LEFT:
+      this->turn_left();
+      break;
+
+    case TURN_RIGHT:
+      this->turn_right();
+      break;
+
+    case MOVE:
+      this->move();
+      break;
+
+    default:
+      std::cout << "Non-existing decision made! Should not be here!" << std::endl;
+      break;
+  }
 }
 
 //sets
@@ -54,7 +77,6 @@ void Animal::set_direction(Direction facing) {
 void Animal::set_energy(uint16_t energy_level) {
   this->energy_level = energy_level;
 }
-
 
 //gets
 Brain* Animal::get_brain() {

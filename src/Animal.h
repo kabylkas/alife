@@ -2,8 +2,8 @@
 #include  "SupportTypes.h"
 #include "Brain.h"
 #include "Eyes.h"
-
 class World;
+class Eyes;
 
 class Animal {
   protected:
