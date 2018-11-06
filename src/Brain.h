@@ -10,4 +10,7 @@ class Brain {
     ~Brain();
     uint8_t decide();
     void remember(bool* input);
+    bool compare(bool* input);
+    //gets
+    bool* get_memory();
 };
