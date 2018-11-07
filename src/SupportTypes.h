@@ -8,8 +8,8 @@
 #define SEED           2
 #define MEMORY_SIZE    12
 
-#define D_MIN          -5
-#define D_MAX          5
+#define D_MIN          -5.0
+#define D_MAX          5.0
 
 #define NUM_AGENT_TYPE 3
 #define NUM_ACTION     4

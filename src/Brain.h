@@ -2,6 +2,8 @@
 #include "SupportTypes.h"
 
 #include <cstdlib> //rand()
+#include <iostream>
+#include <iomanip>
 
 class Brain {
   private:
@@ -13,6 +15,7 @@ class Brain {
   public:
     Brain();
     ~Brain();
+    void dump_model();
     double get_random_double();
     ActionType decide();
     void remember(bool* input);
