@@ -20,6 +20,9 @@ class Brain {
     ActionType decide();
     void remember(bool* input);
     bool compare(bool* input);
-    //gets
+    // gets
     bool* get_memory();
+
+    // sets
+    void set_model(ActionType action_type, double* model, double bias);
 };

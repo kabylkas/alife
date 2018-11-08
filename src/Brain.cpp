@@ -71,6 +71,15 @@ bool Brain::compare(bool* input) {
   return result;
 }
 
+// gets
 bool* Brain::get_memory() {
   return short_term_memory;
+}
+
+// sets
+void Brain::set_model(ActionType action_type, double* model, double bias) {
+  for (uint8_t i = 0; i < MEMORY_SIZE; i++) {
+    this->model[action_type][i] = model[i];
+  }
+  this->bias[action_type] = bias;
 }
