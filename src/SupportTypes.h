@@ -14,6 +14,7 @@
 #define NUM_AGENT_TYPE 3
 #define NUM_ACTION     4
 #define NUM_INPUT      4
+#define NUM_DIRECTION  4
 #define NUM_OFFSET     15
 
 typedef signed char             int8_t;
@@ -25,8 +26,8 @@ typedef unsigned long int       uint64_t;
 
 enum Direction {
   EAST,
-  WEST,
   SOUTH,
+  WEST,
   NORTH
 };
 
@@ -135,4 +136,6 @@ struct Configs {
   uint32_t num_plants;
   uint32_t world_height;
   uint32_t world_width;
+  uint32_t carn_metabolic_rate;
+  uint32_t herb_metabolic_rate;
 };

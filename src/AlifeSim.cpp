@@ -23,6 +23,8 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
       bool num_plants_found      = false;
       bool world_height_found    = false;
       bool world_width_found     = false;
+      bool carn_m_rate_found     = false;
+      bool herb_m_rate_found     = false;
 
       simulation_time_found = (line.find("simulation-time") != std::string::npos);
       num_carnivors_found   = (line.find("num-carnivor") != std::string::npos);
@@ -30,6 +32,8 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
       num_plants_found      = (line.find("num-plants") != std::string::npos);
       world_height_found    = (line.find("world-height") != std::string::npos);
       world_width_found     = (line.find("world-width") != std::string::npos);
+      carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
+      herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
 
       // Extract value
       int eq_pos = line.find("=");
@@ -56,6 +60,10 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
         sim_configs.world_height = temp_value;
       } else if (world_width_found) {
         sim_configs.world_width = temp_value;
+      } else if (carn_m_rate_found) {
+        sim_configs.carn_metabolic_rate = temp_value;
+      } else if (herb_m_rate_found) {
+        sim_configs.herb_metabolic_rate = temp_value;
       } else {
         error_msg = "Unknown configuration variable: "+line;
         result = false;
@@ -87,7 +95,7 @@ void AlifeSim::init(std::string cfg_file_name) {
     // init carnivaor
     for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
       // allocate agent
-      new_animal = new Carnivor();
+      new_animal = new Carnivor(sim_configs.carn_metabolic_rate);
 
       // get calculate initial member variable values
       uint32_t x, y;
@@ -110,7 +118,7 @@ void AlifeSim::init(std::string cfg_file_name) {
     // init herbivors
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
       // allocate agent
-      new_animal = new Herbivor();
+      new_animal = new Herbivor(sim_configs.herb_metabolic_rate);
 
       // get calculate initial member variable values
       uint32_t x, y;

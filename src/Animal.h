@@ -18,6 +18,7 @@ class Animal {
     virtual void eat() {};
     void turn_left();
     void turn_right();
+    virtual uint32_t get_metabolic_rate() {};
 
   public:
     Animal();

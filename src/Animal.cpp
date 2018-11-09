@@ -18,11 +18,28 @@ void Animal::move() {
 }
 
 void Animal::turn_left() {
+  // get the facing direction
+  int current_direction = (uint8_t)this->facing;
 
+  // suptract 1 to turn left
+  current_direction--;
+  if (current_direction < 0) {
+    current_direction = NUM_DIRECTION - 1;
+  }
+
+  // update facing direction
+  this->facing = (Direction)current_direction;
 }
 
 void Animal::turn_right() {
+  // get the facing direction
+  uint8_t current_direction = (uint8_t)this->facing;
 
+  // add 1 to turn right, Direction enum is ordered circularly
+  current_direction = (current_direction + 1) % NUM_DIRECTION;
+
+  // update facing direction
+  this->facing = (Direction)current_direction;
 }
 
 void Animal::take_action(LivingOrganisms* liv_orgs) {

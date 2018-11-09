@@ -1,1 +1,1 @@
-1) validate brain - write a unit test
+1) move config to the seperate class instead of keeping in support types
