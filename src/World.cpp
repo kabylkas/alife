@@ -110,6 +110,15 @@ void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
   }
 }
 
+void World::remove_agent_from(AgentType type, uint32_t x, uint32_t y) {
+#ifdef DEBUG
+  if (!positions[type][x][y]) {
+    std::cout << "This place is not taken, why are you removing this?" << std::endl;
+  }
+#endif
+  positions[type][x][y] = false;
+}
+
 void World::clear_positions() {
   for (uint8_t type = 0; type < NUM_AGENT_TYPE; type++) {
     for (uint32_t i = 0; i < this->height; i++) {

@@ -1,7 +1,7 @@
 #include "IdGenerator.h"
 
 IdGenerator::IdGenerator() {
-
+  this->id = 0;
 }
 
 IdGenerator::~IdGenerator() {

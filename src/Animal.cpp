@@ -16,6 +16,11 @@ Animal::~Animal() {
 }
 
 void Animal::move() {
+  // remove the old position in the world
+  AgentType my_type = this->get_type();
+  this->eyes.get_world()->remove_agent_from(this->get_type(), this->x, this->y);
+
+  // update positions
   switch (this->facing) {
     case NORTH:
       this->y = this->eyes.wrap_y(this->y - 1);
@@ -37,6 +42,13 @@ void Animal::move() {
       std::cout << "Unknown direction, something wrong" << std::endl;
       break;
   }
+
+  // update the position in the world
+  this->eyes.get_world()->place_agent_to(this->get_type(), this->x, this->y);
+
+#ifdef TRACE
+  std::cout << "MOVE: Animal with id: " << this->id << " moved to position: (" << this->x << ", " << this->y << ")" << std::endl;
+#endif
 }
 
 void Animal::turn_left() {
@@ -51,6 +63,10 @@ void Animal::turn_left() {
 
   // update facing direction
   this->facing = (Direction)current_direction;
+
+#ifdef TRACE
+  std::cout << "TURN_LEFT: Animal with id: " << this->id << " is now facing: " << this->facing << std::endl;
+#endif
 }
 
 void Animal::turn_right() {
@@ -62,6 +78,10 @@ void Animal::turn_right() {
 
   // update facing direction
   this->facing = (Direction)current_direction;
+
+#ifdef TRACE
+  std::cout << "TURN_RIGHT: Animal with id: " << this->id << " is now facing: " << this->facing << std::endl;
+#endif
 }
 
 void Animal::take_action(LivingOrganisms* liv_orgs) {
