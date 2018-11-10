@@ -43,11 +43,23 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   this->brain->remember(input);
 }
 
-//sets
+uint32_t Eyes::wrap_x(int x) {
+  return this->world->wrap_x(x);
+}
+
+uint32_t Eyes::wrap_y(int y) {
+  return this->world->wrap_y(y);
+}
+// sets
 void Eyes::set_brain(Brain* brain) {
   this->brain = brain;
 }
 
 void Eyes::set_world(World* world) {
   this->world = world;
+}
+
+// gets
+World* Eyes::get_world() {
+  return this->world;
 }

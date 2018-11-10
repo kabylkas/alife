@@ -14,7 +14,27 @@ Animal::~Animal() {
 }
 
 void Animal::move() {
+  switch (this->facing) {
+    case NORTH:
+      this->y = this->eyes.wrap_y(this->y - 1);
+      break;
 
+    case EAST:
+      this->x = this->eyes.wrap_x(this->x + 1);
+      break;
+
+    case SOUTH:
+      this->y = this->eyes.wrap_y(this->y + 1);
+      break;
+
+    case WEST:
+      this->x = this->eyes.wrap_x(this->x - 1);
+      break;
+
+    default:
+      std::cout << "Unknown direction, something wrong" << std::endl;
+      break;
+  }
 }
 
 void Animal::turn_left() {
@@ -70,6 +90,9 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
       std::cout << "Non-existing decision made! Should not be here!" << std::endl;
       break;
   }
+
+  // every action decrease energy
+  this->energy_level -= this->get_metabolic_rate();
 }
 
 //sets
