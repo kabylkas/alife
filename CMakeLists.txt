@@ -9,6 +9,18 @@ set (SRC_DIR ./src)
 
 include_directories(${SRC_DIR})
 
+option(TRACE "Enable traces..." OFF)
+if (TRACE)
+  message("-- Turning traces on...")
+  add_definitions("-DTRACE")
+endif(TRACE)
+
+option(DEBUG "Enable debug prints..." OFF)
+if (DEBUG)
+  message("-- Turning debug prints on...")
+  add_definitions("-DDEBUG")
+endif(DEBUG)
+
 set (SIM_HDR 
   ${SRC_DIR}/SupportTypes.h
   ${SRC_DIR}/IdGenerator.h

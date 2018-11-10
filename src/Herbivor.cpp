@@ -13,7 +13,9 @@ Herbivor::~Herbivor() {
 }
 
 void Herbivor::eat() {
+#ifdef TRACE
   std::cout << "Herbivor is eating" << std::endl;
+#endif
 }
 
 uint32_t Herbivor::get_metabolic_rate() {

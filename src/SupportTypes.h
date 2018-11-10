@@ -3,8 +3,6 @@
 #include <vector>
 
 // Defines
-#define DEBUG
-
 #define SEED           2
 #define MEMORY_SIZE    12
 

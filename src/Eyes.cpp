@@ -10,7 +10,7 @@ Eyes::~Eyes() {
 
 void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   // initialize inputs
-  #ifdef DEBUG
+  #ifdef TRACE
     std::cout << "Start observing, facing: " << facing << ", x: " << x << ", y:" << y << std::endl;
   #endif
 
