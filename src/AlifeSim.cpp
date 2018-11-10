@@ -106,6 +106,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       energy_level = 100;
 
       // set initial values
+      new_animal->set_id(id_generator.get_id());
       new_animal->set_x(x);
       new_animal->set_y(y);
       new_animal->set_direction(facing);
@@ -129,6 +130,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       energy_level = 100;
 
       // set initial values
+      new_animal->set_id(id_generator.get_id());
       new_animal->set_x(x);
       new_animal->set_y(y);
       new_animal->set_direction(facing);
@@ -161,8 +163,14 @@ void AlifeSim::init(std::string cfg_file_name) {
 
 void AlifeSim::start() {
   for (uint64_t current_time = 0; current_time < sim_configs.time; current_time++) {
+    // perform action
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
       liv_orgs.animals[i]->take_action(&liv_orgs);
+    }
+
+    // increase age of the animals
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      liv_orgs.animals[i]->increment_age();
     }
   }
 }

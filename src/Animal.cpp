@@ -5,7 +5,9 @@ Animal::Animal() {
   this->y = 0;
   this->facing = EAST;
   this->energy_level = 100;
-
+  this->facing = NORTH;
+  this->age = 0;
+  this->id = 0;
   this->eyes.set_brain(&brain);
 }
 
@@ -95,6 +97,9 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
   this->energy_level -= this->get_metabolic_rate();
 }
 
+void Animal::increment_age() {
+  this->age++;
+}
 //sets
 void Animal::set_world(World* world) {
   this->eyes.set_world(world);
@@ -116,8 +121,10 @@ void Animal::set_energy(uint16_t energy_level) {
   this->energy_level = energy_level;
 }
 
+void Animal::set_id(uint64_t id) {
+  this->id = id;
+}
 //gets
 Brain* Animal::get_brain() {
   return &(this->brain);
 }
-

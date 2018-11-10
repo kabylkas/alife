@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SupportTypes.h"
+#include "IdGenerator.h"
 #include "Animal.h"
 #include "Carnivor.h"
 #include "Herbivor.h"
@@ -16,7 +17,7 @@ class AlifeSim {
     LivingOrganisms liv_orgs;
     World world;
     bool read_config_file(std::string cfg_file_name);
-
+    IdGenerator id_generator;
 
   public:
     AlifeSim();
