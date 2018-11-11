@@ -8,7 +8,8 @@
 #include "Plant.h"
 #include "World.h"
 #include "LivingOrganisms.h"
-#include <fstream>
+#include "Configs.h"
+
 #include <string>
 #include <iostream>
 #include <cassert>
@@ -26,5 +27,6 @@ class AlifeSim {
     ~AlifeSim();
     void init(std::string cfg_file_name);
     void start();
+    void sustain();
     Configs sim_configs;
 };

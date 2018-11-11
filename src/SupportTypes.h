@@ -128,16 +128,3 @@ class Offsets {
 
     ~Offsets() {};
 };
-
-struct Configs {
-  uint64_t time;
-  uint32_t num_carnivors;
-  uint32_t num_herbivors;
-  uint32_t num_plants;
-  uint32_t world_height;
-  uint32_t world_width;
-  uint32_t carn_metabolic_rate;
-  uint32_t herb_metabolic_rate;
-  uint32_t herb_nutritional_value;
-  uint32_t plant_nutritional_value;
-};

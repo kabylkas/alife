@@ -24,6 +24,7 @@ endif(DEBUG)
 set (SIM_HDR 
   ${SRC_DIR}/SupportTypes.h
   ${SRC_DIR}/IdGenerator.h
+  ${SRC_DIR}/Configs.h
   ${SRC_DIR}/AlifeSim.h
   ${SRC_DIR}/Animal.h
   ${SRC_DIR}/Carnivor.h
@@ -38,6 +39,7 @@ set (SIM_HDR
 set (SIM_SRC 
   ${SRC_DIR}/main.cpp
   ${SRC_DIR}/IdGenerator.cpp
+  ${SRC_DIR}/Configs.cpp
   ${SRC_DIR}/AlifeSim.cpp
   ${SRC_DIR}/Animal.cpp
   ${SRC_DIR}/Carnivor.cpp
