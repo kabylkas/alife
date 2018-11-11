@@ -7,16 +7,17 @@
 #include <cstdlib> //rand()
 
 class LivingOrganisms;
+
 class World {
   private:
     uint32_t width;
     uint32_t height;
     bool allow_share;
+    std::map<AgentType, uint8_t**> positions;
 
   public:
     World();
     ~World();
-    std::map<AgentType, bool**> positions;
 
     uint32_t wrap_x(int x);
     uint32_t wrap_y(int y);
@@ -24,6 +25,7 @@ class World {
     void place_agent_rand(AgentType type, uint32_t* x, uint32_t* y);
     void place_agent_to(AgentType type, uint32_t x, uint32_t y);
     void remove_agent_from(AgentType type, uint32_t x, uint32_t y);
+    bool in_place(AgentType type, uint32_t x, uint32_t y);
     void clear_positions();
 
     // sets

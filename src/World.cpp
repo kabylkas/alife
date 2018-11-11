@@ -49,31 +49,31 @@ void World::init(uint32_t height, uint32_t width, bool allow_share) {
 
   // set up carnivor positions
   this->positions[CARNIVOR];
-  this->positions[CARNIVOR] = new bool*[height];
+  this->positions[CARNIVOR] = new uint8_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[CARNIVOR][i] = new bool[width];
+    this->positions[CARNIVOR][i] = new uint8_t[width];
     for (uint32_t j = 0; j < width; j++) {
-      this->positions[CARNIVOR][i][j] = false;
+      this->positions[CARNIVOR][i][j] = 0;
     }
   }
 
   // set up herbivor positions
   this->positions[HERBIVOR];
-  this->positions[HERBIVOR] = new bool*[height];
+  this->positions[HERBIVOR] = new uint8_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[HERBIVOR][i] = new bool[width];
+    this->positions[HERBIVOR][i] = new uint8_t[width];
     for (uint32_t j = 0; j < width; j++) {
-      this->positions[HERBIVOR][i][j] = false;
+      this->positions[HERBIVOR][i][j] = 0;
     }
   }
 
   // set up plant positions
   this->positions[PLANT];
-  this->positions[PLANT] = new bool*[height];
+  this->positions[PLANT] = new uint8_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[PLANT][i] = new bool[width];
+    this->positions[PLANT][i] = new uint8_t[width];
     for (uint32_t j = 0; j < width; j++) {
-      this->positions[PLANT][i][j] = false;
+      this->positions[PLANT][i][j] = 0;
     }
   }  
 }
@@ -96,7 +96,7 @@ void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
   }
 
   // place an agent to the spot
-  positions[type][temp_y][temp_x] = true;
+  positions[type][temp_y][temp_x]++;
 
   // return values
   *x = temp_x;
@@ -105,30 +105,35 @@ void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
 
 void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
   if (this->allow_share) {
-    positions[type][y][x] = true;
+    positions[type][y][x]++;
   } else {
     if (positions[CARNIVOR][y][x] || positions[HERBIVOR][y][x] || positions[PLANT][y][x]) {
       std::cout <<"Place is taken" << std::endl;
     } else {
-      positions[type][y][x] = true;
+      positions[type][y][x]++;
     }
   }
 }
 
 void World::remove_agent_from(AgentType type, uint32_t x, uint32_t y) {
-#ifdef DEBUG
-  if (!positions[type][x][y]) {
-    std::cout << "This place is not taken, why are you removing this?" << std::endl;
+  if (positions[type][y][x] > 0) {
+    positions[type][y][x]--;
+  } else {
+    #ifdef DEBUG
+      std::cout << "This place is not taken, why are you removing this?" << std::endl;
+    #endif
   }
-#endif
-  positions[type][x][y] = false;
+}
+
+bool World::in_place(AgentType type, uint32_t x, uint32_t y) {
+  return positions[type][y][x] > 0;
 }
 
 void World::clear_positions() {
   for (uint8_t type = 0; type < NUM_AGENT_TYPE; type++) {
     for (uint32_t i = 0; i < this->height; i++) {
       for (uint32_t j = 0; j < this->width; j++) {
-        positions[(AgentType)type][i][j] = false;
+        positions[(AgentType)type][i][j] = 0;
       }
     }
   }
@@ -174,7 +179,7 @@ void World::draw_positions(AgentType type) {
   for (uint32_t i = 0; i < this->height; i++) {
     for (uint32_t j = 0; j < this->width; j++) {
       char to_print;
-      if (positions[type][i][j]) {
+      if (positions[type][i][j] > 0) {
         to_print = type_char;
       } else {
         to_print = '.';
@@ -199,11 +204,11 @@ void World::draw_positions() {
   for (uint32_t i = 0; i < this->height; i++) {
     for (uint32_t j = 0; j < this->width; j++) {
       char to_print;
-      if (positions[CARNIVOR][i][j]) {
+      if (positions[CARNIVOR][i][j] > 0) {
         to_print = c_type_char;
-      } else if (positions[HERBIVOR][i][j]){
+      } else if (positions[HERBIVOR][i][j] > 0){
         to_print = h_type_char;;
-      } else if (positions[PLANT][i][j]) {
+      } else if (positions[PLANT][i][j] > 0) {
         to_print = p_type_char;
       } else {
         to_print = '.';
