@@ -8,6 +8,7 @@ Animal::Animal() {
   this->facing = NORTH;
   this->age = 0;
   this->id = 0;
+  this->dead = false;
   this->eyes.set_brain(&brain);
 }
 
@@ -17,7 +18,6 @@ Animal::~Animal() {
 
 void Animal::move() {
   // remove the old position in the world
-  AgentType my_type = this->get_type();
   this->eyes.get_world()->remove_agent_from(this->get_type(), this->x, this->y);
 
   // update positions
@@ -93,7 +93,7 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
 
   switch (decision) {
     case EAT:
-      this->eat();
+      this->eat(liv_orgs);
       break;
 
     case TURN_LEFT:
@@ -115,10 +115,33 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
 
   // every action decrease energy
   this->energy_level -= this->get_metabolic_rate();
+
+  // check if animal has enough energy to live
+  if (this->energy_level <= 0) {
+    this->die();
+  }
 }
 
 void Animal::increment_age() {
   this->age++;
+}
+
+void Animal::update_position() {
+  // update the position in the world
+  this->eyes.get_world()->place_agent_to(this->get_type(), this->x, this->y);
+}
+
+bool Animal::is_alive() {
+  return !(this->dead);
+}
+
+bool Animal::is_dead() {
+  return this->dead;
+}
+
+void Animal::die() {
+  this->energy_level = -100;
+  this->dead = true;
 }
 //sets
 void Animal::set_world(World* world) {
@@ -137,7 +160,7 @@ void Animal::set_direction(Direction facing) {
   this->facing = facing;
 }
 
-void Animal::set_energy(uint16_t energy_level) {
+void Animal::set_energy(int energy_level) {
   this->energy_level = energy_level;
 }
 
@@ -147,4 +170,16 @@ void Animal::set_id(uint64_t id) {
 //gets
 Brain* Animal::get_brain() {
   return &(this->brain);
+}
+
+uint64_t Animal::get_id() {
+  return this->id;
+}
+
+uint32_t Animal::get_x() {
+  return this->x;
+}
+
+uint32_t Animal::get_y() {
+  return this->y;
 }

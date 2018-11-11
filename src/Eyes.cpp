@@ -43,6 +43,24 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   this->brain->remember(input);
 }
 
+bool Eyes::in_proximity(AgentType type, Direction facing, uint32_t* x, uint32_t* y) {
+  bool result = false;
+
+  uint8_t input_type = 3; //proximity
+  for (uint8_t i = 0; i < this->offsets.x_offsets[facing].input[input_type].size(); i++) {
+    uint32_t x_to_check = this->world->wrap_x(*x + this->offsets.x_offsets[facing].input[input_type][i]);
+    uint32_t y_to_check = this->world->wrap_y(*y + this->offsets.y_offsets[facing].input[input_type][i]);
+    if (this->world->positions[type][y_to_check][x_to_check]) {
+      result = true;
+      *x = x_to_check;
+      *y = y_to_check;
+      break;
+    }
+  }
+
+  return result;
+}
+
 uint32_t Eyes::wrap_x(int x) {
   return this->world->wrap_x(x);
 }

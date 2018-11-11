@@ -11,6 +11,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <cassert>
+#include <cstdlib> //rand()
 
 class AlifeSim {
   private:

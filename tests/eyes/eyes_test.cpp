@@ -9,7 +9,7 @@ int main() {
   Eyes eyes;
   Brain brain;
   
-  world.init(10, 10);
+  world.init(10, 10, true);
   eyes.set_world(&world);
   eyes.set_brain(&brain);
   int test_num = 0;

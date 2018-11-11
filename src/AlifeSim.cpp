@@ -25,6 +25,8 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
       bool world_width_found     = false;
       bool carn_m_rate_found     = false;
       bool herb_m_rate_found     = false;
+      bool herb_nut_value_found  = false;
+      bool plant_nut_value_found = false;
 
       simulation_time_found = (line.find("simulation-time") != std::string::npos);
       num_carnivors_found   = (line.find("num-carnivor") != std::string::npos);
@@ -34,6 +36,10 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
       world_width_found     = (line.find("world-width") != std::string::npos);
       carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
       herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
+      herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
+      herb_nut_value_found  = (line.find("herbivor-nutritional-value") != std::string::npos);
+      plant_nut_value_found = (line.find("plant-nutritional-value") != std::string::npos);
+
 
       // Extract value
       int eq_pos = line.find("=");
@@ -64,6 +70,10 @@ bool AlifeSim::read_config_file(std::string cfg_file_name) {
         sim_configs.carn_metabolic_rate = temp_value;
       } else if (herb_m_rate_found) {
         sim_configs.herb_metabolic_rate = temp_value;
+      } else if (herb_nut_value_found) {
+        sim_configs.herb_nutritional_value = temp_value;
+      } else if (plant_nut_value_found) {
+        sim_configs.plant_nutritional_value = temp_value;
       } else {
         error_msg = "Unknown configuration variable: "+line;
         result = false;
@@ -87,8 +97,10 @@ void AlifeSim::init(std::string cfg_file_name) {
   // read in configs
   bool got_variables = this->read_config_file(cfg_file_name);
   if (got_variables) {
+    // rand seed
+    srand(SEED);
     // init the world
-    this->world.init(sim_configs.world_height, sim_configs.world_width);
+    this->world.init(sim_configs.world_height, sim_configs.world_width, ALLOW_PLACE_SHARING);
 
     // init the agents
     Animal* new_animal;
@@ -101,7 +113,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent_rand(CARNIVOR, &x, &y, true);
+      this->world.place_agent_rand(CARNIVOR, &x, &y);
       facing = (Direction)(rand() % 4);
       energy_level = 100;
 
@@ -125,8 +137,9 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint32_t x, y;
       Direction facing;
       uint16_t energy_level;
-      this->world.place_agent_rand(HERBIVOR, &x, &y, true);
+      this->world.place_agent_rand(HERBIVOR, &x, &y);
       facing = (Direction)(rand() % 4);
+      uint32_t nutritional_value = sim_configs.plant_nutritional_value;
       energy_level = 100;
 
       // set initial values
@@ -136,6 +149,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       new_animal->set_direction(facing);
       new_animal->set_energy(energy_level);
       new_animal->set_world(&(this->world));
+      new_animal->set_nutritional_value(nutritional_value);
 
       liv_orgs.animals.push_back(new_animal);
     }
@@ -145,13 +159,13 @@ void AlifeSim::init(std::string cfg_file_name) {
     for (uint32_t i = 0; i < sim_configs.num_plants; i++) {
       // get calculate initial member variable values
       uint32_t x, y;
-      uint16_t nutrition_level;
-      this->world.place_agent_rand(PLANT, &x, &y, true);
+      uint32_t nutritional_value = sim_configs.plant_nutritional_value;
+      this->world.place_agent_rand(PLANT, &x, &y);
       
       // set initial values
       temp_plant.set_x(x);
       temp_plant.set_y(y);
-      temp_plant.set_nutrition_level(nutrition_level);
+      temp_plant.set_nutritional_value(nutritional_value);
 
       liv_orgs.plants.push_back(temp_plant);
     }
@@ -168,9 +182,37 @@ void AlifeSim::start() {
       liv_orgs.animals[i]->take_action(&liv_orgs);
     }
 
+    // positions of the animals should be updated
+    // this is to avoid problems related to several
+    // same type animals sharing positions
+    //
+    // cleaner way to handle this is
+    // to implement position planes as grid of 
+    // counters instead of having booleans
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      liv_orgs.animals[i]->update_position();
+    }
+
     // increase age of the animals
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
       liv_orgs.animals[i]->increment_age();
     }
+
+    // update the living organisms, remove those that
+    // are killed or used up all of their energy
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      if (liv_orgs.animals[i]->is_dead()) {
+        #ifdef TRACE
+          std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
+        #endif
+        liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
+        // decrease i since indexing has changed after erase
+        i--;
+      }
+    }
+
+    #ifdef TRACE
+      std::cout << "ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
+    #endif
   }
 }

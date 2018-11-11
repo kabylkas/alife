@@ -3,6 +3,8 @@
 #include <vector>
 
 // Defines
+#define ALLOW_PLACE_SHARING true
+
 #define SEED           2
 #define MEMORY_SIZE    12
 
@@ -136,4 +138,6 @@ struct Configs {
   uint32_t world_width;
   uint32_t carn_metabolic_rate;
   uint32_t herb_metabolic_rate;
+  uint32_t herb_nutritional_value;
+  uint32_t plant_nutritional_value;
 };

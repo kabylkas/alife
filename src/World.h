@@ -3,14 +3,15 @@
 #include "SupportTypes.h"
 #include <map>
 
-#include <cstdlib> //rand()
 #include <iostream>
+#include <cstdlib> //rand()
 
 class LivingOrganisms;
 class World {
   private:
     uint32_t width;
     uint32_t height;
+    bool allow_share;
 
   public:
     World();
@@ -19,8 +20,8 @@ class World {
 
     uint32_t wrap_x(int x);
     uint32_t wrap_y(int y);
-    void init(uint32_t height, uint32_t width);
-    void place_agent_rand(AgentType type, uint32_t* x, uint32_t* y, bool allow_share);
+    void init(uint32_t height, uint32_t width, bool allow_share);
+    void place_agent_rand(AgentType type, uint32_t* x, uint32_t* y);
     void place_agent_to(AgentType type, uint32_t x, uint32_t y);
     void remove_agent_from(AgentType type, uint32_t x, uint32_t y);
     void clear_positions();

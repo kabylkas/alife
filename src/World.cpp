@@ -1,7 +1,7 @@
 #include "World.h"
 
 World::World() {
-  srand(SEED);
+
 }
 
 World::~World() {
@@ -42,7 +42,8 @@ uint32_t World::wrap_y(int y) {
   return result;
 }
 
-void World::init(uint32_t height, uint32_t width) {
+void World::init(uint32_t height, uint32_t width, bool allow_share) {
+  this->allow_share = allow_share;
   this->height = height;
   this->width = width;
 
@@ -77,12 +78,12 @@ void World::init(uint32_t height, uint32_t width) {
   }  
 }
 
-void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y, bool allow_share) {
+void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y) {
   // find empty spot on the plabe
   uint32_t temp_x;
   uint32_t temp_y;
 
-  if (allow_share) {
+  if (this->allow_share) {
     temp_x = rand() % this->width;
     temp_y = rand() % this->height;
   } else {
@@ -103,10 +104,14 @@ void World::place_agent_rand(AgentType type, uint32_t* x, uint32_t* y, bool allo
 }
 
 void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
-  if (positions[CARNIVOR][y][x] || positions[HERBIVOR][y][x] || positions[PLANT][y][x]) {
-    std::cout <<"Place is taken" << std::endl;
-  } else {
+  if (this->allow_share) {
     positions[type][y][x] = true;
+  } else {
+    if (positions[CARNIVOR][y][x] || positions[HERBIVOR][y][x] || positions[PLANT][y][x]) {
+      std::cout <<"Place is taken" << std::endl;
+    } else {
+      positions[type][y][x] = true;
+    }
   }
 }
 

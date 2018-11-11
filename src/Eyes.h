@@ -15,6 +15,7 @@ class Eyes {
     Eyes();
     ~Eyes();
     void observe(Direction facing, uint32_t x, uint32_t y);
+    bool in_proximity(AgentType type, Direction facing, uint32_t* x, uint32_t* y);
     uint32_t wrap_x(int x);
     uint32_t wrap_y(int y);
 
