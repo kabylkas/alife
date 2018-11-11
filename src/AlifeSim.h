@@ -12,7 +12,7 @@
 
 #include <string>
 #include <iostream>
-#include <cassert>
+#include <assert.h>
 #include <cstdlib> //rand()
 
 class AlifeSim {
@@ -21,6 +21,9 @@ class AlifeSim {
     World world;
     bool read_config_file(std::string cfg_file_name);
     IdGenerator id_generator;
+    Animal* get_random_herbivor();
+    Animal* get_random_carnivor();
+    Plant get_random_plant();
 
   public:
     AlifeSim();

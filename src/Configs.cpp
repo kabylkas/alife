@@ -2,7 +2,10 @@
 
 Configs::Configs() {
   this->time                    = 0;
-  this->num_carnivors           = 0;
+  this->min_num_carnivors       = 0;
+  this->min_num_carnivors       = 0;
+  this->min_num_herbivors       = 0;
+  this->num_plants              = 0;
   this->num_herbivors           = 0;
   this->num_plants              = 0;
   this->world_height            = 0;
@@ -36,11 +39,17 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       bool herb_m_rate_found     = false;
       bool herb_nut_value_found  = false;
       bool plant_nut_value_found = false;
+      bool min_num_carn_found    = false;
+      bool min_num_herb_found    = false;
+      bool min_num_plant_found   = false;
 
       simulation_time_found = (line.find("simulation-time") != std::string::npos);
-      num_carnivors_found   = (line.find("num-carnivor") != std::string::npos);
+      num_carnivors_found   = (line.find("num-carnivors") != std::string::npos);
       num_herbivors_found   = (line.find("num-herbivors") != std::string::npos);
       num_plants_found      = (line.find("num-plants") != std::string::npos);
+      min_num_carn_found    = (line.find("min-num-carnivors") != std::string::npos);
+      min_num_herb_found    = (line.find("min-num-herbivors") != std::string::npos);
+      min_num_plant_found   = (line.find("min-num-plants") != std::string::npos);
       world_height_found    = (line.find("world-height") != std::string::npos);
       world_width_found     = (line.find("world-width") != std::string::npos);
       carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
@@ -63,27 +72,60 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       } 
 
       // Assign to config file
-      if (simulation_time_found) {
+      if (simulation_time_found)
+      {
         this->time = temp_value;
-      } else if (num_carnivors_found) {
+      } 
+      else if (min_num_carn_found)
+      {
+        this->min_num_carnivors = temp_value;
+      } 
+      else if (min_num_herb_found)
+      {
+        this->min_num_herbivors = temp_value;
+      } 
+      else if (min_num_plant_found)
+      {
+        this->min_num_carnivors = temp_value;
+      } 
+      else if (num_carnivors_found)
+      {
         this->num_carnivors = temp_value;
-      } else if (num_herbivors_found) {
+      } 
+      else if (num_herbivors_found)
+      {
         this->num_herbivors = temp_value;
-      } else if (num_plants_found) {
+      } 
+      else if (num_plants_found)
+      {
         this->num_plants = temp_value;
-      } else if (world_height_found) {
+      } 
+      else if (world_height_found)
+      {
         this->world_height = temp_value;
-      } else if (world_width_found) {
+      } 
+      else if (world_width_found)
+      {
         this->world_width = temp_value;
-      } else if (carn_m_rate_found) {
+      } 
+      else if (carn_m_rate_found)
+      {
         this->carn_metabolic_rate = temp_value;
-      } else if (herb_m_rate_found) {
+      } 
+      else if (herb_m_rate_found)
+      {
         this->herb_metabolic_rate = temp_value;
-      } else if (herb_nut_value_found) {
+      } 
+      else if (herb_nut_value_found)
+      {
         this->herb_nutritional_value = temp_value;
-      } else if (plant_nut_value_found) {
+      } 
+      else if (plant_nut_value_found)
+      {
         this->plant_nutritional_value = temp_value;
-      } else {
+      } 
+      else
+      {
         error_msg = "Unknown configuration variable: "+line;
         result = false;
         break;

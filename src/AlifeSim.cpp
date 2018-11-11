@@ -8,7 +8,6 @@ AlifeSim::~AlifeSim() {
 
 }
 
-
 void AlifeSim::init(std::string cfg_file_name) {
   // read in configs
   bool got_variables = sim_configs.read_config_file(cfg_file_name);
@@ -18,73 +17,24 @@ void AlifeSim::init(std::string cfg_file_name) {
     // init the world
     this->world.init(sim_configs.world_height, sim_configs.world_width, ALLOW_PLACE_SHARING);
 
-    // init the agents
-    Animal* new_animal;
     // init carnivaor
+    liv_orgs.num_carnivors = sim_configs.num_carnivors;
     for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
-      // allocate agent
-      new_animal = new Carnivor(sim_configs.carn_metabolic_rate);
-
-      // get calculate initial member variable values
-      uint32_t x, y;
-      Direction facing;
-      uint16_t energy_level;
-      this->world.place_agent_rand(CARNIVOR, &x, &y);
-      facing = (Direction)(rand() % 4);
-      energy_level = 100;
-
-      // set initial values
-      new_animal->set_id(id_generator.get_id());
-      new_animal->set_x(x);
-      new_animal->set_y(y);
-      new_animal->set_direction(facing);
-      new_animal->set_energy(energy_level);
-      new_animal->set_world(&(this->world));
-
-      liv_orgs.animals.push_back(new_animal);
+      liv_orgs.animals.push_back(this->get_random_carnivor());
     }
 
     // init herbivors
+    liv_orgs.num_herbivors = sim_configs.num_herbivors;
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
-      // allocate agent
-      new_animal = new Herbivor(sim_configs.herb_metabolic_rate);
-
-      // get calculate initial member variable values
-      uint32_t x, y;
-      Direction facing;
-      uint16_t energy_level;
-      this->world.place_agent_rand(HERBIVOR, &x, &y);
-      facing = (Direction)(rand() % 4);
-      uint32_t nutritional_value = sim_configs.herb_nutritional_value;
-      energy_level = 100;
-
-      // set initial values
-      new_animal->set_id(id_generator.get_id());
-      new_animal->set_x(x);
-      new_animal->set_y(y);
-      new_animal->set_direction(facing);
-      new_animal->set_energy(energy_level);
-      new_animal->set_world(&(this->world));
-      new_animal->set_nutritional_value(nutritional_value);
-
-      liv_orgs.animals.push_back(new_animal);
+      liv_orgs.animals.push_back(this->get_random_herbivor());
     }
 
     // init herbivors
-    Plant temp_plant;
+    liv_orgs.num_plants = sim_configs.num_plants;
     for (uint32_t i = 0; i < sim_configs.num_plants; i++) {
-      // get calculate initial member variable values
-      uint32_t x, y;
-      uint32_t nutritional_value = sim_configs.plant_nutritional_value;
-      this->world.place_agent_rand(PLANT, &x, &y);
-      
-      // set initial values
-      temp_plant.set_x(x);
-      temp_plant.set_y(y);
-      temp_plant.set_nutritional_value(nutritional_value);
-
-      liv_orgs.plants.push_back(temp_plant);
+      liv_orgs.plants.push_back(this->get_random_plant());
     }
+
     #ifdef DEBUG
       world.draw_positions();
     #endif
@@ -111,9 +61,17 @@ void AlifeSim::start() {
         #ifdef TRACE
           std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
         #endif
+        // update the count in the simulation
+        if (liv_orgs.animals[i]->get_type() == CARNIVOR) {
+          liv_orgs.num_carnivors--;
+        } else {
+          liv_orgs.num_herbivors--;
+        }
+        // erase dead animal
         liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
+
         // decrease i since indexing has changed after erase
-        i -= 2;
+        i -= 1;
       }
     }
     // plants
@@ -123,8 +81,9 @@ void AlifeSim::start() {
           std::cout << "DEATH: Plant is dead" << std::endl;
         #endif
         liv_orgs.plants.erase(liv_orgs.plants.begin() + i);
+        liv_orgs.num_plants--;
         // decrease i since indexing has changed after erase
-        i -= 2;
+        i -= 1;
       }
     }
 
@@ -142,9 +101,90 @@ void AlifeSim::start() {
     #ifdef TRACE
       std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
     #endif
+    assert(liv_orgs.num_carnivors + liv_orgs.num_herbivors == liv_orgs.animals.size());
+    assert(liv_orgs.num_plants == liv_orgs.plants.size());
+
+    // sustain the life in simulation
+    this->sustain();
   }
 }
 
 void AlifeSim::sustain() {
+  while (liv_orgs.num_carnivors < sim_configs.min_num_carnivors) {
+    liv_orgs.animals.push_back(this->get_random_carnivor());
+    liv_orgs.num_carnivors++;
+  }
 
+  while (liv_orgs.num_herbivors < sim_configs.min_num_herbivors) {
+    liv_orgs.animals.push_back(this->get_random_herbivor());
+    liv_orgs.num_herbivors++;
+  }
+
+  while (liv_orgs.num_plants < sim_configs.min_num_plants) {
+    liv_orgs.plants.push_back(this->get_random_plant());
+    liv_orgs.num_plants++;
+  }
+}
+
+Animal* AlifeSim::get_random_herbivor() {
+  // allocate agent
+  Animal* new_animal = new Herbivor(sim_configs.herb_metabolic_rate);
+
+  // get calculate initial member variable values
+  uint32_t x, y;
+  Direction facing;
+  uint16_t energy_level;
+  this->world.place_agent_rand(HERBIVOR, &x, &y);
+  facing = (Direction)(rand() % 4);
+  uint32_t nutritional_value = sim_configs.herb_nutritional_value;
+  energy_level = 100;
+
+  // set initial values
+  new_animal->set_id(id_generator.get_id());
+  new_animal->set_x(x);
+  new_animal->set_y(y);
+  new_animal->set_direction(facing);
+  new_animal->set_energy(energy_level);
+  new_animal->set_world(&(this->world));
+  new_animal->set_nutritional_value(nutritional_value);
+
+  return new_animal;
+}
+
+Animal* AlifeSim::get_random_carnivor() {
+  // allocate agent
+  Animal* new_animal = new Carnivor(sim_configs.carn_metabolic_rate);
+
+  // get calculate initial member variable values
+  uint32_t x, y;
+  Direction facing;
+  uint16_t energy_level;
+  this->world.place_agent_rand(CARNIVOR, &x, &y);
+  facing = (Direction)(rand() % 4);
+  energy_level = 100;
+
+  // set initial values
+  new_animal->set_id(id_generator.get_id());
+  new_animal->set_x(x);
+  new_animal->set_y(y);
+  new_animal->set_direction(facing);
+  new_animal->set_energy(energy_level);
+  new_animal->set_world(&(this->world));
+  
+  return new_animal;
+}
+
+Plant AlifeSim::get_random_plant() {
+  Plant temp_plant;
+  // get calculate initial member variable values
+  uint32_t x, y;
+  uint32_t nutritional_value = sim_configs.plant_nutritional_value;
+  this->world.place_agent_rand(PLANT, &x, &y);
+  
+  // set initial values
+  temp_plant.set_x(x);
+  temp_plant.set_y(y);
+  temp_plant.set_nutritional_value(nutritional_value);
+
+  return temp_plant;
 }

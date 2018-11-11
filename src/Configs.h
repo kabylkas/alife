@@ -9,6 +9,9 @@ class Configs {
     ~Configs();
     bool read_config_file(std::string cfg_file_name);
     uint64_t time;
+    uint32_t min_num_carnivors;
+    uint32_t min_num_herbivors;
+    uint32_t min_num_plants;
     uint32_t num_carnivors;
     uint32_t num_herbivors;
     uint32_t num_plants;

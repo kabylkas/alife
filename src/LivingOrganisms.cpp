@@ -1,7 +1,9 @@
 #include "LivingOrganisms.h"
 
 LivingOrganisms::LivingOrganisms() {
-
+  this->num_carnivors = 0;
+  this->num_herbivors = 0;
+  this->num_plants = 0;
 }
 
 LivingOrganisms::~LivingOrganisms() {
