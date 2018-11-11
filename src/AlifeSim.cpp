@@ -139,7 +139,7 @@ void AlifeSim::init(std::string cfg_file_name) {
       uint16_t energy_level;
       this->world.place_agent_rand(HERBIVOR, &x, &y);
       facing = (Direction)(rand() % 4);
-      uint32_t nutritional_value = sim_configs.plant_nutritional_value;
+      uint32_t nutritional_value = sim_configs.herb_nutritional_value;
       energy_level = 100;
 
       // set initial values
@@ -182,6 +182,36 @@ void AlifeSim::start() {
       liv_orgs.animals[i]->take_action(&liv_orgs);
     }
 
+    // increase age of the animals
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      liv_orgs.animals[i]->increment_age();
+    }
+
+    // update the living organisms, remove those that
+    // are killed or used up all of their energy
+    // animals:
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      if (liv_orgs.animals[i]->is_dead()) {
+        #ifdef TRACE
+          std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
+        #endif
+        liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
+        // decrease i since indexing has changed after erase
+        i -= 2;
+      }
+    }
+    // plants
+    for (uint32_t i = 0; i < liv_orgs.plants.size(); i++) {
+      if (liv_orgs.plants[i].is_dead()) {
+        #ifdef TRACE
+          std::cout << "DEATH: Plant is dead" << std::endl;
+        #endif
+        liv_orgs.plants.erase(liv_orgs.plants.begin() + i);
+        // decrease i since indexing has changed after erase
+        i -= 2;
+      }
+    }
+
     // positions of the animals should be updated
     // this is to avoid problems related to several
     // same type animals sharing positions
@@ -193,26 +223,8 @@ void AlifeSim::start() {
       liv_orgs.animals[i]->update_position();
     }
 
-    // increase age of the animals
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      liv_orgs.animals[i]->increment_age();
-    }
-
-    // update the living organisms, remove those that
-    // are killed or used up all of their energy
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      if (liv_orgs.animals[i]->is_dead()) {
-        #ifdef TRACE
-          std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
-        #endif
-        liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
-        // decrease i since indexing has changed after erase
-        i--;
-      }
-    }
-
     #ifdef TRACE
-      std::cout << "ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
+      std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
     #endif
   }
 }

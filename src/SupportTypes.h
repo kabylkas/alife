@@ -114,7 +114,7 @@ class Offsets {
         this->y_offsets[WEST].input[2].push_back(west_y_offsets[i]);
       }
 
-      for (uint8_t i = 9; i < NUM_INPUT; i++) {
+      for (uint8_t i = 9; i < NUM_OFFSET; i++) {
         this->x_offsets[NORTH].input[3].push_back(north_x_offsets[i]);
         this->y_offsets[NORTH].input[3].push_back(north_y_offsets[i]);
         this->x_offsets[EAST].input[3].push_back(east_x_offsets[i]);

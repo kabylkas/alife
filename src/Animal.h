@@ -8,12 +8,14 @@ class Animal {
   protected:
     Eyes eyes;
     Brain brain;
-    uint32_t x;
-    uint32_t y;
-    Direction facing;
     int energy_level;
     uint64_t age;
     uint64_t id;
+    uint32_t x;
+    uint32_t y;
+    Direction facing;
+    AgentType type;
+    AgentType food_type;
     bool dead;
 
     // Actions

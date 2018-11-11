@@ -1,7 +1,7 @@
 #include "World.h"
 
 World::World() {
-
+  this->allow_share = false;
 }
 
 World::~World() {

@@ -11,7 +11,7 @@ Eyes::~Eyes() {
 void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   // initialize inputs
   #ifdef TRACE
-    std::cout << "Start observing, facing: " << facing << ", x: " << x << ", y:" << y << std::endl;
+    std::cout << "Start observing, facing: " << facing << ", x: " << x << ", y: " << y << std::endl;
   #endif
 
   bool input[MEMORY_SIZE];
@@ -43,17 +43,17 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   this->brain->remember(input);
 }
 
-bool Eyes::in_proximity(AgentType type, Direction facing, uint32_t* x, uint32_t* y) {
+bool Eyes::in_proximity(AgentType type, uint32_t input_x, uint32_t input_y, Direction facing, uint32_t* output_x, uint32_t* output_y) {
   bool result = false;
 
   uint8_t input_type = 3; //proximity
   for (uint8_t i = 0; i < this->offsets.x_offsets[facing].input[input_type].size(); i++) {
-    uint32_t x_to_check = this->world->wrap_x(*x + this->offsets.x_offsets[facing].input[input_type][i]);
-    uint32_t y_to_check = this->world->wrap_y(*y + this->offsets.y_offsets[facing].input[input_type][i]);
+    uint32_t x_to_check = this->world->wrap_x(input_x + this->offsets.x_offsets[facing].input[input_type][i]);
+    uint32_t y_to_check = this->world->wrap_y(input_y + this->offsets.y_offsets[facing].input[input_type][i]);
     if (this->world->positions[type][y_to_check][x_to_check]) {
       result = true;
-      *x = x_to_check;
-      *y = y_to_check;
+      *output_x = x_to_check;
+      *output_y = y_to_check;
       break;
     }
   }
