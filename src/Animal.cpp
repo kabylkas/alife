@@ -183,3 +183,7 @@ uint32_t Animal::get_x() {
 uint32_t Animal::get_y() {
   return this->y;
 }
+
+uint64_t Animal::get_age() {
+  return this->age;
+}

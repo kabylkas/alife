@@ -52,5 +52,6 @@ class Animal {
     uint64_t get_id();
     uint32_t get_x();
     uint32_t get_y();
+    uint64_t get_age();
 
 };

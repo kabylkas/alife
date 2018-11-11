@@ -1,7 +1,7 @@
 #include "AlifeSim.h"
 
 AlifeSim::AlifeSim() {
-
+  this->max_age = 0;
 }
 
 AlifeSim::~AlifeSim() {
@@ -45,12 +45,17 @@ void AlifeSim::start() {
   for (uint64_t current_time = 0; current_time < sim_configs.time; current_time++) {
     // perform action
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      liv_orgs.animals[i]->take_action(&liv_orgs);
+      if (liv_orgs.animals[i]->is_alive()) {
+        liv_orgs.animals[i]->take_action(&liv_orgs);
+      }
     }
 
     // increase age of the animals
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
       liv_orgs.animals[i]->increment_age();
+      if (this->max_age < liv_orgs.animals[i]->get_age()) {
+        this->max_age = liv_orgs.animals[i]->get_age();
+      }
     }
 
     // update the living organisms, remove those that
@@ -68,6 +73,7 @@ void AlifeSim::start() {
           liv_orgs.num_herbivors--;
         }
         // erase dead animal
+        delete liv_orgs.animals[i];
         liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
 
         // decrease i since indexing has changed after erase
@@ -111,16 +117,25 @@ void AlifeSim::start() {
 
 void AlifeSim::sustain() {
   while (liv_orgs.num_carnivors < sim_configs.min_num_carnivors) {
+    #ifdef DEBUG
+      std::cout << "Sustaining carnivors... Current: " << liv_orgs.num_carnivors << "; Min: " << sim_configs.min_num_carnivors << std::endl;
+    #endif
     liv_orgs.animals.push_back(this->get_random_carnivor());
     liv_orgs.num_carnivors++;
   }
 
   while (liv_orgs.num_herbivors < sim_configs.min_num_herbivors) {
+    #ifdef DEBUG
+      std::cout << "Sustaining herbivors... Current: " << liv_orgs.num_herbivors << "; Min: " << sim_configs.min_num_herbivors << std::endl;
+    #endif
     liv_orgs.animals.push_back(this->get_random_herbivor());
     liv_orgs.num_herbivors++;
   }
 
   while (liv_orgs.num_plants < sim_configs.min_num_plants) {
+    #ifdef DEBUG
+      std::cout << "Sustaining plants... Current: " << liv_orgs.num_plants << "; Min: " << sim_configs.min_num_plants << std::endl;
+    #endif
     liv_orgs.plants.push_back(this->get_random_plant());
     liv_orgs.num_plants++;
   }

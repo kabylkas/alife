@@ -3,7 +3,7 @@
 Configs::Configs() {
   this->time                    = 0;
   this->min_num_carnivors       = 0;
-  this->min_num_carnivors       = 0;
+  this->min_num_plants          = 0;
   this->min_num_herbivors       = 0;
   this->num_plants              = 0;
   this->num_herbivors           = 0;
@@ -86,7 +86,7 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       } 
       else if (min_num_plant_found)
       {
-        this->min_num_carnivors = temp_value;
+        this->min_num_plants = temp_value;
       } 
       else if (num_carnivors_found)
       {

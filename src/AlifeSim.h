@@ -32,4 +32,5 @@ class AlifeSim {
     void start();
     void sustain();
     Configs sim_configs;
+    uint64_t max_age;
 };
