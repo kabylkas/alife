@@ -14,3 +14,7 @@ LivingOrganisms::~LivingOrganisms() {
     delete animals[i];
   }
 }
+
+void LivingOrganisms::set_id_generator(IdGenerator* id_generator) {
+  this->id_generator = id_generator;
+}

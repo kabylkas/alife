@@ -6,6 +6,7 @@ set (SRC_DIR ../../src)
 
 set (SIM_HDR 
   ${SRC_DIR}/SupportTypes.h
+  ${SRC_DIR}/IdGenerator.h
   ${SRC_DIR}/Animal.h
   ${SRC_DIR}/Carnivor.h
   ${SRC_DIR}/Herbivor.h
@@ -17,6 +18,7 @@ set (SIM_HDR
 )
 
 set (SIM_SRC 
+  ${SRC_DIR}/IdGenerator.cpp
   ${SRC_DIR}/Animal.cpp
   ${SRC_DIR}/Carnivor.cpp
   ${SRC_DIR}/Herbivor.cpp

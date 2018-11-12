@@ -1,8 +1,12 @@
 #include "Brain.h"
 
 #include <iostream>
+#include <cstdlib> //rand()
+#include <ctime>
 
 int main() {
+  srand(time(0));
+  std::cout << "Seed: " << time(0) << std::endl;
   int test_num = 0;
   ///////////////
   // Test 1
@@ -157,6 +161,54 @@ int main() {
       std::cout << "Test " << test_num << " failed" << std::endl;
       return 1;
     }
+  }
+
+  ///////////////
+  // Test 6
+  ///////////////
+  {
+    test_num++;
+    Brain brain;
+    double percent = 0.2;
+    uint32_t expected_count = (uint32_t)(percent * 100);
+    uint32_t tolerance = 20;
+    for (uint32_t k = 0; k < 100; k++) {
+      uint32_t count = 0;
+      for (uint32_t i = 0; i < 100; i++) {
+        if (brain.change(percent)) {
+          count++;
+        }
+      }
+      if (count > expected_count + tolerance || count < expected_count - tolerance) {
+        std::cout << "Test " << test_num << " failed. Count: " << count << std::endl;
+        return 1;
+      }
+    }
+    std::cout << "Test " << test_num << " passed" << std::endl;
+  }
+
+  ///////////////
+  // Test 7
+  ///////////////
+  {
+    test_num++;
+    Brain brain;
+    double percent = 0.5;
+    uint32_t expected_count = (uint32_t)(percent * 100);
+    uint32_t tolerance = 20;
+    for (uint32_t k = 0; k < 100; k++) {
+      uint32_t count = 0;
+      for (uint32_t i = 0; i < 100; i++) {
+        if (brain.change(percent)) {
+          count++;
+        }
+      }
+      if (count > expected_count + tolerance || count < expected_count - tolerance) {
+        std::cout << "Test " << test_num << " failed. Count: " << count << std::endl;
+        return 1;
+      }
+    }
+    std::cout << "Test " << test_num << " passed" << std::endl;
   }
   return 0;
 }

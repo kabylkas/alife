@@ -120,6 +120,14 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
   if (this->energy_level <= 0) {
     this->die();
   }
+
+  // if enought energy, reproduce
+  if (this->energy_level > 170) {
+    // reproduce agent
+    this->reproduce(liv_orgs);
+    // place child to the world
+    this->eyes.get_world()->place_agent_to(this->get_type(), this->x, this->y);
+  }
 }
 
 void Animal::increment_age() {
@@ -161,6 +169,10 @@ void Animal::set_energy(int energy_level) {
 
 void Animal::set_id(uint64_t id) {
   this->id = id;
+}
+
+void Animal::set_age(uint64_t age) {
+  this->age = age;
 }
 //gets
 Brain* Animal::get_brain() {

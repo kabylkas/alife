@@ -1,6 +1,7 @@
 #pragma once
 #include "Animal.h"
 #include "LivingOrganisms.h"
+#include "IdGenerator.h"
 
 #include <iostream>
 
@@ -9,6 +10,7 @@ class Carnivor : public Animal {
     uint32_t metabolic_rate;
     uint32_t nutritional_value;
     void eat(LivingOrganisms* lig_orgs);
+    void reproduce(LivingOrganisms* lig_orgs);
     uint32_t get_metabolic_rate();
 
   public:

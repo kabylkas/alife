@@ -32,6 +32,11 @@ double Brain::get_random_double() {
   return D_MIN + d * (D_MAX - D_MIN);
 }
 
+bool Brain::change(double percent) {
+  double d = (rand()/1.0) / (RAND_MAX/1.0);
+  return (d <= percent);
+}
+
 ActionType Brain::decide() {
   double max_sum = -10000;
   uint8_t max_action;
@@ -69,6 +74,20 @@ bool Brain::compare(bool* input) {
   }
 
   return result;
+}
+
+void Brain::mutate(double percent) {
+  for (uint8_t action_type = 0; action_type < NUM_ACTION; action_type++) {
+    for (uint8_t i = 0; i < MEMORY_SIZE; i++) {
+      if (this->change(percent)) { 
+        double d = this->get_random_double();
+        this->model[action_type].push_back(d);
+      }
+    }
+    if (this->change(percent)) {
+      this->bias[action_type] = this->get_random_double();
+    }
+  }
 }
 
 // gets

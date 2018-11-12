@@ -23,6 +23,7 @@ class Animal {
     virtual void eat(LivingOrganisms* liv_orgs) {};
     void turn_left();
     void turn_right();
+    virtual void reproduce(LivingOrganisms* liv_orgs) {};
 
   public:
     Animal();
@@ -44,6 +45,7 @@ class Animal {
     void set_direction(Direction facing);
     void set_energy(int energy_level);
     void set_id(uint64_t id);
+    void set_age(uint64_t age);
     virtual void set_nutritional_value(uint32_t nutritional_value) {};
 
     //gets

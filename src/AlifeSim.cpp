@@ -2,6 +2,7 @@
 
 AlifeSim::AlifeSim() {
   this->max_age = 0;
+  liv_orgs.set_id_generator(&(this->id_generator));
 }
 
 AlifeSim::~AlifeSim() {

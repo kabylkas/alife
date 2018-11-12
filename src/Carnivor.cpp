@@ -43,6 +43,20 @@ void Carnivor::eat(LivingOrganisms* liv_orgs) {
   }
 }
 
+void Carnivor::reproduce(LivingOrganisms* liv_orgs) {
+  this->energy_level /= 2; 
+  Animal* new_animal = new Carnivor();
+  *new_animal = *(this);
+  new_animal->set_age(0);
+  new_animal->set_id(liv_orgs->id_generator->get_id());
+  new_animal->get_brain()->mutate(0.2);
+  liv_orgs->animals.push_back(new_animal);
+  liv_orgs->num_carnivors++;
+  #ifdef TRACE
+    std::cout << "REPRODUCE: Carnivor with id: "<< this->id <<" is reproducing. Child id: " << new_animal->get_id() << std::endl;
+  #endif
+}
+
 // sets
 void Carnivor::set_nutritional_value(uint32_t nutritional_value) {
   this->nutritional_value = nutritional_value;
