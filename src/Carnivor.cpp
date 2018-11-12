@@ -33,7 +33,6 @@ void Carnivor::eat(LivingOrganisms* liv_orgs) {
           #endif
           // kill prey
           prey->die();
-          this->eyes.get_world()->remove_agent_from(this->food_type, x, y);
           // increment energy
           this->energy_level += prey->get_nutritional_value();
           break;

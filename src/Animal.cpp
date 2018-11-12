@@ -3,7 +3,6 @@
 Animal::Animal() {
   this->x = 0;
   this->y = 0;
-  this->facing = EAST;
   this->energy_level = 100;
   this->facing = NORTH;
   this->age = 0;
@@ -53,7 +52,7 @@ void Animal::move() {
 
 void Animal::turn_left() {
   // get the facing direction
-  int current_direction = (uint8_t)this->facing;
+  int current_direction = (int)this->facing;
 
   // suptract 1 to turn left
   current_direction--;
@@ -71,7 +70,7 @@ void Animal::turn_left() {
 
 void Animal::turn_right() {
   // get the facing direction
-  uint8_t current_direction = (uint8_t)this->facing;
+  int current_direction = (int)this->facing;
 
   // add 1 to turn right, Direction enum is ordered circularly
   current_direction = (current_direction + 1) % NUM_DIRECTION;
@@ -119,7 +118,6 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
   // check if animal has enough energy to live
   if (this->energy_level <= 0) {
     this->die();
-    this->eyes.get_world()->remove_agent_from(this->get_type(), this->x, this->y);
   }
 
   // if enought energy, reproduce

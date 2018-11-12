@@ -49,9 +49,9 @@ void World::init(uint32_t height, uint32_t width, bool allow_share) {
 
   // set up carnivor positions
   this->positions[CARNIVOR];
-  this->positions[CARNIVOR] = new uint8_t*[height];
+  this->positions[CARNIVOR] = new uint32_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[CARNIVOR][i] = new uint8_t[width];
+    this->positions[CARNIVOR][i] = new uint32_t[width];
     for (uint32_t j = 0; j < width; j++) {
       this->positions[CARNIVOR][i][j] = 0;
     }
@@ -59,9 +59,9 @@ void World::init(uint32_t height, uint32_t width, bool allow_share) {
 
   // set up herbivor positions
   this->positions[HERBIVOR];
-  this->positions[HERBIVOR] = new uint8_t*[height];
+  this->positions[HERBIVOR] = new uint32_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[HERBIVOR][i] = new uint8_t[width];
+    this->positions[HERBIVOR][i] = new uint32_t[width];
     for (uint32_t j = 0; j < width; j++) {
       this->positions[HERBIVOR][i][j] = 0;
     }
@@ -69,9 +69,9 @@ void World::init(uint32_t height, uint32_t width, bool allow_share) {
 
   // set up plant positions
   this->positions[PLANT];
-  this->positions[PLANT] = new uint8_t*[height];
+  this->positions[PLANT] = new uint32_t*[height];
   for (uint32_t i = 0; i < height; i++) {
-    this->positions[PLANT][i] = new uint8_t[width];
+    this->positions[PLANT][i] = new uint32_t[width];
     for (uint32_t j = 0; j < width; j++) {
       this->positions[PLANT][i][j] = 0;
     }

@@ -14,7 +14,7 @@ class World {
     uint32_t width;
     uint32_t height;
     bool allow_share;
-    std::map<AgentType, uint8_t**> positions;
+    std::map<AgentType, uint32_t**> positions;
 
   public:
     World();

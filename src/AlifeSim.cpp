@@ -68,14 +68,17 @@ void AlifeSim::start() {
         #ifdef TRACE
           std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
         #endif
+        Animal* dead_animal = liv_orgs.animals[i];
+        AgentType type = dead_animal->get_type();
         // update the count in the simulation
-        if (liv_orgs.animals[i]->get_type() == CARNIVOR) {
+        if (type == CARNIVOR) {
           liv_orgs.num_carnivors--;
         } else {
           liv_orgs.num_herbivors--;
         }
         // erase dead animal
-        delete liv_orgs.animals[i];
+        this->world.remove_agent_from(type, dead_animal->get_x(), dead_animal->get_y());
+        delete dead_animal;
         liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
 
         // decrease i since indexing has changed after erase
