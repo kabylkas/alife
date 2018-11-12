@@ -93,17 +93,6 @@ void AlifeSim::start() {
       }
     }
 
-    // positions of the animals should be updated
-    // this is to avoid problems related to several
-    // same type animals sharing positions
-    //
-    // cleaner way to handle this is
-    // to implement position planes as grid of 
-    // counters instead of having booleans
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      liv_orgs.animals[i]->update_position();
-    }
-
     #ifdef TRACE
       std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
     #endif

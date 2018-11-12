@@ -126,11 +126,6 @@ void Animal::increment_age() {
   this->age++;
 }
 
-void Animal::update_position() {
-  // update the position in the world
-  this->eyes.get_world()->place_agent_to(this->get_type(), this->x, this->y);
-}
-
 bool Animal::is_alive() {
   return !(this->dead);
 }

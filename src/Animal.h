@@ -30,7 +30,6 @@ class Animal {
     // others
     void take_action(LivingOrganisms* liv_orgs);
     void increment_age();
-    void update_position();
     void die();
     bool is_alive();
     bool is_dead();

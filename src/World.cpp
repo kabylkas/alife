@@ -116,12 +116,9 @@ void World::place_agent_to(AgentType type, uint32_t x, uint32_t y) {
 }
 
 void World::remove_agent_from(AgentType type, uint32_t x, uint32_t y) {
-  if (positions[type][y][x] > 0) {
-    positions[type][y][x]--;
-  } else {
-    #ifdef DEBUG
-      std::cout << "This place is not taken, why are you removing this?" << std::endl;
-    #endif
+  assert(this->positions[type][y][x] > 0);
+  if (this->positions[type][y][x] > 0) {
+    this->positions[type][y][x]--;
   }
 }
 

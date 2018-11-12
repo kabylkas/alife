@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <cstdlib> //rand()
+#include <assert.h>
 
 class LivingOrganisms;
 
