@@ -35,4 +35,5 @@ class AlifeSim {
     Configs sim_configs;
     uint64_t max_age;
     uint64_t max_population;
+    uint64_t reproductions_happened;
 };

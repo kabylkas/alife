@@ -14,6 +14,8 @@ Configs::Configs() {
   this->herb_metabolic_rate     = 0;
   this->herb_nutritional_value  = 0;
   this->plant_nutritional_value = 0;
+  this->sample_rate             = 100;
+  this->repro_energy_level      = 170;
 }
 
 Configs::~Configs() {

@@ -21,4 +21,6 @@ class Configs {
     uint32_t herb_metabolic_rate;
     uint32_t herb_nutritional_value;
     uint32_t plant_nutritional_value;
+    uint32_t sample_rate;
+    uint32_t repro_energy_level;
 };

@@ -90,6 +90,17 @@ void Brain::mutate(double percent) {
   }
 }
 
+void Brain::transfer(Brain* brain) {
+  for (uint8_t i = 0; i < NUM_ACTION; i++) {
+    double bias_to_pass = this->bias[i];
+    double model_to_pass[MEMORY_SIZE];
+    for (uint8_t j = 0; j < MEMORY_SIZE; j++) {
+      model_to_pass[j] = this->model[i][j];
+    }
+    brain->set_model((ActionType)i, model_to_pass, bias_to_pass);
+  }
+}
+
 // gets
 bool* Brain::get_memory() {
   return short_term_memory;

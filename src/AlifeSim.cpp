@@ -3,6 +3,7 @@
 AlifeSim::AlifeSim() {
   this->max_age = 0;
   this->max_population = 0;
+  this->reproductions_happened = 0;
   liv_orgs.set_id_generator(&(this->id_generator));
 }
 
@@ -107,8 +108,53 @@ void AlifeSim::start() {
     // sustain the life in simulation
     this->sustain();
 
+    //reproduce to hose that have enough energy
+    std::vector<Animal*> new_born_animals;
+    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
+      Animal* parent = liv_orgs.animals[i];
+      if (parent->get_energy() > sim_configs.repro_energy_level) {
+        this->reproductions_happened++;
+        // update energy, reproduction takes energy
+        uint32_t new_energy = parent->get_energy() / 2;
+        parent->set_energy(new_energy);
+
+        // generate new animal
+        Animal* child;
+        if (parent->get_type() == CARNIVOR) {
+          child = get_random_carnivor();
+          liv_orgs.num_carnivors++;
+        } else {
+          child = get_random_herbivor();
+          liv_orgs.num_herbivors++;
+        }
+
+        // transfer parents brain to child
+        parent->get_brain()->transfer(child->get_brain());
+
+        // mutate child's brain
+        child->get_brain()->mutate(0.2);
+
+        // some updates on child
+        child->set_energy(new_energy);
+
+        // place child to the crowd
+        new_born_animals.push_back(child);
+      }
+    }
+    // place new borns to the life
+    for (uint32_t i = 0; i < new_born_animals.size(); i++) {
+      liv_orgs.animals.push_back(new_born_animals[i]);
+    }
+    new_born_animals.clear();
+
+    // some initial stats update
     if (this->max_population < liv_orgs.animals.size()) {
       this->max_population = liv_orgs.animals.size();
+    }
+
+    if (current_time % sim_configs.sample_rate == 0) {
+      std::cout << current_time << ": Current population: " << liv_orgs.animals.size() << "; Reproductions happened: " << this->reproductions_happened << std::endl;
+      this->reproductions_happened = 0;
     }
   }
 }

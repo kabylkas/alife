@@ -56,5 +56,6 @@ class Animal {
     uint32_t get_x();
     uint32_t get_y();
     uint64_t get_age();
+    int get_energy();
 
 };

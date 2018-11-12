@@ -22,6 +22,8 @@ class Brain {
     bool compare(bool* input);
     void mutate(double percent);
     bool change(double percent);
+    void transfer(Brain* brain);
+
     // gets
     bool* get_memory();
 
