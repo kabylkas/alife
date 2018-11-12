@@ -23,9 +23,9 @@ void Eyes::observe(Direction facing, uint32_t x, uint32_t y) {
   // check front
   for (uint8_t input_type = 0; input_type < NUM_INPUT; input_type++) {
     for (uint8_t agent_type = 0; agent_type < 3; agent_type++) {
-      for (uint8_t i = 0; i < this->offsets.x_offsets[facing].input[input_type].size(); i++) {
-        uint32_t x_to_check = this->world->wrap_x(x + this->offsets.x_offsets[facing].input[input_type][i]);
-        uint32_t y_to_check = this->world->wrap_y(y + this->offsets.y_offsets[facing].input[input_type][i]);
+      for (uint8_t i = 0; i < this->offsets->x_offsets[facing].input[input_type].size(); i++) {
+        uint32_t x_to_check = this->world->wrap_x(x + this->offsets->x_offsets[facing].input[input_type][i]);
+        uint32_t y_to_check = this->world->wrap_y(y + this->offsets->y_offsets[facing].input[input_type][i]);
         if (this->world->in_place((AgentType)agent_type, x_to_check, y_to_check)) {
           input[3 * input_type + agent_type] = true;
         }
@@ -47,9 +47,9 @@ bool Eyes::in_proximity(AgentType type, uint32_t input_x, uint32_t input_y, Dire
   bool result = false;
 
   uint8_t input_type = 3; //proximity
-  for (uint8_t i = 0; i < this->offsets.x_offsets[facing].input[input_type].size(); i++) {
-    uint32_t x_to_check = this->world->wrap_x(input_x + this->offsets.x_offsets[facing].input[input_type][i]);
-    uint32_t y_to_check = this->world->wrap_y(input_y + this->offsets.y_offsets[facing].input[input_type][i]);
+  for (uint8_t i = 0; i < this->offsets->x_offsets[facing].input[input_type].size(); i++) {
+    uint32_t x_to_check = this->world->wrap_x(input_x + this->offsets->x_offsets[facing].input[input_type][i]);
+    uint32_t y_to_check = this->world->wrap_y(input_y + this->offsets->y_offsets[facing].input[input_type][i]);
     if (this->world->in_place((AgentType)type, x_to_check, y_to_check)) {
       result = true;
       *output_x = x_to_check;
@@ -75,6 +75,10 @@ void Eyes::set_brain(Brain* brain) {
 
 void Eyes::set_world(World* world) {
   this->world = world;
+}
+
+void Eyes::set_offsets(Offsets* offsets) {
+  this->offsets = offsets;
 }
 
 // gets

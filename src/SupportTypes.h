@@ -54,7 +54,11 @@ class Offsets {
     public:
       std::vector<int> input[NUM_INPUT];
 
-      Location() {};
+      Location() {
+        for (uint32_t i = 0; i < NUM_INPUT; i++) {
+          input[i].clear();
+        }
+      }
       ~Location() {};
   };
 

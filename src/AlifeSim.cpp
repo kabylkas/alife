@@ -2,6 +2,7 @@
 
 AlifeSim::AlifeSim() {
   this->max_age = 0;
+  this->max_population = 0;
   liv_orgs.set_id_generator(&(this->id_generator));
 }
 
@@ -102,6 +103,10 @@ void AlifeSim::start() {
 
     // sustain the life in simulation
     this->sustain();
+
+    if (this->max_population < liv_orgs.animals.size()) {
+      this->max_population = liv_orgs.animals.size();
+    }
   }
 }
 
@@ -151,6 +156,7 @@ Animal* AlifeSim::get_random_herbivor() {
   new_animal->set_direction(facing);
   new_animal->set_energy(energy_level);
   new_animal->set_world(&(this->world));
+  new_animal->set_offsets(&(this->offsets));
   new_animal->set_nutritional_value(nutritional_value);
 
   return new_animal;
@@ -175,6 +181,7 @@ Animal* AlifeSim::get_random_carnivor() {
   new_animal->set_direction(facing);
   new_animal->set_energy(energy_level);
   new_animal->set_world(&(this->world));
+  new_animal->set_offsets(&(this->offsets));
   
   return new_animal;
 }

@@ -7,7 +7,7 @@ class Animal;
 
 class Eyes {
   private:
-    Offsets offsets;
+    Offsets* offsets;
     Brain* brain;
     World* world;
 
@@ -22,6 +22,7 @@ class Eyes {
     //sets
     void set_brain(Brain* brain);
     void set_world(World* world);
+    void set_offsets(Offsets* offsets);
 
     //gets
     World* get_world();

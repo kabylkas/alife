@@ -9,7 +9,7 @@ Animal::Animal() {
   this->age = 0;
   this->id = 0;
   this->dead = false;
-  this->eyes.set_brain(&brain);
+  this->eyes.set_brain(&(this->brain));
 }
 
 Animal::~Animal() {
@@ -119,6 +119,7 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
   // check if animal has enough energy to live
   if (this->energy_level <= 0) {
     this->die();
+    this->eyes.get_world()->remove_agent_from(this->get_type(), this->x, this->y);
   }
 
   // if enought energy, reproduce
@@ -146,9 +147,20 @@ void Animal::die() {
   this->energy_level = -100;
   this->dead = true;
 }
+
+void Animal::new_born_reset(uint64_t id) {
+  this->id = id;
+  this->age = 0;
+  this->eyes.set_brain(&(this->brain));
+}
+
 //sets
 void Animal::set_world(World* world) {
   this->eyes.set_world(world);
+}
+
+void Animal::set_offsets(Offsets* offsets) {
+  this->eyes.set_offsets(offsets);
 }
 
 void Animal::set_x(uint32_t x) {
@@ -174,6 +186,7 @@ void Animal::set_id(uint64_t id) {
 void Animal::set_age(uint64_t age) {
   this->age = age;
 }
+
 //gets
 Brain* Animal::get_brain() {
   return &(this->brain);

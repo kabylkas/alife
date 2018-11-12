@@ -32,6 +32,7 @@ class Animal {
     void take_action(LivingOrganisms* liv_orgs);
     void increment_age();
     void die();
+    void new_born_reset(uint64_t id);
     bool is_alive();
     bool is_dead();
     virtual AgentType get_type() {};
@@ -40,6 +41,7 @@ class Animal {
 
     //sets
     void set_world(World* world);
+    void set_offsets(Offsets* offsets);
     void set_x(uint32_t x);
     void set_y(uint32_t y);
     void set_direction(Direction facing);

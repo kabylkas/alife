@@ -24,6 +24,7 @@ class AlifeSim {
     Animal* get_random_herbivor();
     Animal* get_random_carnivor();
     Plant get_random_plant();
+    Offsets offsets;
 
   public:
     AlifeSim();
@@ -33,4 +34,5 @@ class AlifeSim {
     void sustain();
     Configs sim_configs;
     uint64_t max_age;
+    uint64_t max_population;
 };

@@ -7,5 +7,6 @@ int main() {
   simulation.start();
 
   std::cout << "Max age in simulation: " << simulation.max_age << std::endl;
+  std::cout << "Max population in simulation: " << simulation.max_population << std::endl;
   return 0;
 }

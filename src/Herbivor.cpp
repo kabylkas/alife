@@ -45,8 +45,7 @@ void Herbivor::reproduce(LivingOrganisms* liv_orgs) {
   this->energy_level /= 2;
   Animal* new_animal = new Herbivor();
   *new_animal = *(this);
-  new_animal->set_age(0);
-  new_animal->set_id(liv_orgs->id_generator->get_id());
+  new_animal->new_born_reset(liv_orgs->id_generator->get_id());
   new_animal->get_brain()->mutate(0.2);
   liv_orgs->animals.push_back(new_animal);
   liv_orgs->num_herbivors++;
