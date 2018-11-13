@@ -9,7 +9,7 @@ class Brain {
   private:
     bool short_term_memory[MEMORY_SIZE]; 
     // model/neural nets
-    std::vector<double> model[NUM_ACTION];
+    double model[NUM_ACTION][MEMORY_SIZE];
     double bias[NUM_ACTION];
     double get_random_double();
 

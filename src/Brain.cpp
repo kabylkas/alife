@@ -5,7 +5,7 @@ Brain::Brain() {
   for (uint8_t action_type = 0; action_type < NUM_ACTION; action_type++) {
     for (uint8_t i = 0; i < MEMORY_SIZE; i++) {
       double d = this->get_random_double();
-      this->model[action_type].push_back(d);
+      this->model[action_type][i] = d;
     }
 
     this->bias[action_type] = this->get_random_double();
@@ -81,7 +81,7 @@ void Brain::mutate(double percent) {
     for (uint8_t i = 0; i < MEMORY_SIZE; i++) {
       if (this->change(percent)) { 
         double d = this->get_random_double();
-        this->model[action_type].push_back(d);
+        this->model[action_type][i] = d;
       }
     }
     if (this->change(percent)) {
@@ -93,11 +93,7 @@ void Brain::mutate(double percent) {
 void Brain::transfer(Brain* brain) {
   for (uint8_t i = 0; i < NUM_ACTION; i++) {
     double bias_to_pass = this->bias[i];
-    double model_to_pass[MEMORY_SIZE];
-    for (uint8_t j = 0; j < MEMORY_SIZE; j++) {
-      model_to_pass[j] = this->model[i][j];
-    }
-    brain->set_model((ActionType)i, model_to_pass, bias_to_pass);
+    brain->set_model((ActionType)i, this->model[i], bias_to_pass);
   }
 }
 
