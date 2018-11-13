@@ -153,7 +153,7 @@ void AlifeSim::start() {
     }
 
     if (current_time % sim_configs.sample_rate == 0) {
-      std::cout << current_time << ": Current population: " << liv_orgs.animals.size() << "; Reproductions happened: " << this->reproductions_happened << std::endl;
+      std::cout << current_time << ", " << liv_orgs.animals.size() << ", " << this->reproductions_happened << std::endl;
       this->reproductions_happened = 0;
     }
   }
