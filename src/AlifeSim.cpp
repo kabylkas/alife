@@ -142,10 +142,10 @@ void AlifeSim::start() {
       }
     }
     // place new borns to the life
-    for (uint32_t i = 0; i < new_born_animals.size(); i++) {
-      liv_orgs.animals.push_back(new_born_animals[i]);
+    while (new_born_animals.size() > 0) {
+      liv_orgs.animals.push_back(new_born_animals[new_born_animals.size() - 1]);
+      new_born_animals.pop_back();
     }
-    new_born_animals.clear();
 
     // some initial stats update
     if (this->max_population < liv_orgs.animals.size()) {

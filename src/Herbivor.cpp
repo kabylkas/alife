@@ -22,7 +22,7 @@ void Herbivor::eat(LivingOrganisms* liv_orgs) {
   // observe proximity
   uint32_t x, y;
   if (this->eyes.in_proximity(PLANT, this->x, this->y, this->facing, &x, &y)) {
-    for (uint32_t i = 0; i < liv_orgs->animals.size(); i++) {
+    for (uint32_t i = 0; i < liv_orgs->plants.size(); i++) {
       Plant* prey = &(liv_orgs->plants[i]);
       if (prey->get_x() == x && prey->get_y() == y) {
         if (prey->get_type() == this->food_type && prey->is_alive()) {
