@@ -32,7 +32,7 @@ void Carnivor::eat(LivingOrganisms* liv_orgs) {
             std::cout << ". Prey id: " << prey->get_id() << std::endl;
           #endif
           // kill prey
-          prey->die();
+          prey->die(true);
           // increment energy
           this->energy_level += prey->get_nutritional_value();
           break;

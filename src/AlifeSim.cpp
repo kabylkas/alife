@@ -3,7 +3,12 @@
 AlifeSim::AlifeSim() {
   this->max_age = 0;
   this->max_population = 0;
-  this->reproductions_happened = 0;
+  this->carn_reproductions_happened = 0;
+  this->herb_reproductions_happened = 0;
+  this->carn_death_happened = 0;
+  this->herb_death_happened = 0;
+  this->plants_eatan = 0;
+  this->herbs_eatan = 0;
   liv_orgs.set_id_generator(&(this->id_generator));
 }
 
@@ -74,8 +79,13 @@ void AlifeSim::start() {
         // update the count in the simulation
         if (type == CARNIVOR) {
           liv_orgs.num_carnivors--;
+          this->carn_death_happened++;
         } else {
           liv_orgs.num_herbivors--;
+          this->herb_death_happened++;
+          if (dead_animal->is_killed()) {
+            this->herbs_eatan++;
+          }
         }
         // erase dead animal
         this->world.remove_agent_from(type, dead_animal->get_x(), dead_animal->get_y());
@@ -94,6 +104,7 @@ void AlifeSim::start() {
         #endif
         liv_orgs.plants.erase(liv_orgs.plants.begin() + i);
         liv_orgs.num_plants--;
+        this->plants_eatan++;
         // decrease i since indexing has changed after erase
         i -= 1;
       }
@@ -113,7 +124,6 @@ void AlifeSim::start() {
     for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
       Animal* parent = liv_orgs.animals[i];
       if (parent->get_energy() > sim_configs.repro_energy_level) {
-        this->reproductions_happened++;
         // update energy, reproduction takes energy
         uint32_t new_energy = parent->get_energy() / 2;
         parent->set_energy(new_energy);
@@ -123,9 +133,11 @@ void AlifeSim::start() {
         if (parent->get_type() == CARNIVOR) {
           child = get_random_carnivor();
           liv_orgs.num_carnivors++;
+          this->carn_reproductions_happened++;
         } else {
           child = get_random_herbivor();
           liv_orgs.num_herbivors++;
+          this->herb_reproductions_happened++;
         }
 
         // transfer parents brain to child
@@ -153,8 +165,23 @@ void AlifeSim::start() {
     }
 
     if (current_time % sim_configs.sample_rate == 0) {
-      std::cout << current_time << ", " << liv_orgs.animals.size() << ", " << this->reproductions_happened << std::endl;
-      this->reproductions_happened = 0;
+      // spit out some report
+      std::cout << current_time << ", ";
+      std::cout << liv_orgs.animals.size() << ", ";
+      std::cout << this->carn_reproductions_happened << ", ";
+      std::cout << this->herb_reproductions_happened << ", ";
+      std::cout << this->carn_death_happened << ", ";
+      std::cout << this->herb_death_happened << ", ";
+      std::cout << this->herbs_eatan << ", ";
+      std::cout << this->plants_eatan << std::endl;
+
+      // reset counters
+      this->carn_reproductions_happened = 0;
+      this->herb_reproductions_happened = 0;
+      this->carn_death_happened = 0;
+      this->herb_death_happened = 0;
+      this->herbs_eatan = 0;
+      this->plants_eatan = 0;
     }
   }
 }

@@ -8,6 +8,7 @@ Animal::Animal() {
   this->age = 0;
   this->id = 0;
   this->dead = false;
+  this->killed = false;
   this->eyes.set_brain(&(this->brain));
 }
 
@@ -117,7 +118,7 @@ void Animal::take_action(LivingOrganisms* liv_orgs) {
 
   // check if animal has enough energy to live
   if (this->energy_level <= 0) {
-    this->die();
+    this->die(false);
   }
 }
 
@@ -133,9 +134,14 @@ bool Animal::is_dead() {
   return this->dead;
 }
 
-void Animal::die() {
+bool Animal::is_killed() {
+  return this->killed;
+}
+
+void Animal::die(bool killed) {
   this->energy_level = -100;
   this->dead = true;
+  this->killed = killed;
 }
 
 void Animal::new_born_reset(uint64_t id) {

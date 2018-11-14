@@ -35,5 +35,10 @@ class AlifeSim {
     Configs sim_configs;
     uint64_t max_age;
     uint64_t max_population;
-    uint64_t reproductions_happened;
+    uint64_t carn_reproductions_happened;
+    uint64_t herb_reproductions_happened;
+    uint64_t carn_death_happened;
+    uint64_t herb_death_happened;
+    uint64_t plants_eatan;
+    uint64_t herbs_eatan;
 };

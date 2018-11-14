@@ -17,6 +17,7 @@ class Animal {
     AgentType type;
     AgentType food_type;
     bool dead;
+    bool killed;
 
     // Actions
     void move();
@@ -31,10 +32,11 @@ class Animal {
     // others
     void take_action(LivingOrganisms* liv_orgs);
     void increment_age();
-    void die();
+    void die(bool killed);
     void new_born_reset(uint64_t id);
     bool is_alive();
     bool is_dead();
+    bool is_killed();
     virtual AgentType get_type() {};
     virtual uint32_t get_metabolic_rate() {};
     virtual uint32_t get_nutritional_value() {};
