@@ -37,9 +37,9 @@ class Animal {
     bool is_alive();
     bool is_dead();
     bool is_killed();
-    virtual AgentType get_type() {};
-    virtual uint32_t get_metabolic_rate() {};
-    virtual uint32_t get_nutritional_value() {};
+    virtual AgentType get_type() { return (AgentType)0; };
+    virtual uint32_t get_metabolic_rate() { return 0; };
+    virtual uint32_t get_nutritional_value() { return 0; };
 
     //sets
     void set_world(World* world);
