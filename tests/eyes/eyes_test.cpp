@@ -8,10 +8,12 @@ int main() {
   World world;
   Eyes eyes;
   Brain brain;
+  Offsets offsets;
   
   world.init(10, 10, true);
   eyes.set_world(&world);
   eyes.set_brain(&brain);
+  eyes.set_offsets(&offsets);
   int test_num = 0;
 
   /* Test 1
