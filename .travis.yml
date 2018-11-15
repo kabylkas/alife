@@ -19,5 +19,5 @@ building:
 testing:
   stage: test
   script:
-    - cd tests
-    - ./test.sh
+    - ./build/tests/brain/brain_test
+    - ./build/tests/eyes/eyes_test
