@@ -1,23 +1,14 @@
 language: cpp
 
-stages:
-  - build
-  - test
-
 compiler:
   - gcc
 
-building:
-  stage: build
-  before_script:
-    - mkdir build
-    - cd build
-    - cmake ..
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
 
-  script: make
-
-testing:
-  stage: test
-  script:
-    - ./build/tests/brain/brain_test
-    - ./build/tests/eyes/eyes_test
+script:
+  - make
+  - ./tests/brain/brain_test
+  - ./tests/eyes/eyes_test
