@@ -10,5 +10,10 @@ before_script:
 
 script:
   - make
+  - cd ../
+  - mkdir testing
+  - cd testing
+  - cmake ..
+  - make
   - ./tests/brain/brain_test
   - ./tests/eyes/eyes_test
