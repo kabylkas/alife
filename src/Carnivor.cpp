@@ -7,7 +7,8 @@ Carnivor::Carnivor(uint32_t metabolic_rate) {
 }
 
 Carnivor::Carnivor() {
-
+  this->type = CARNIVOR;
+  this->food_type = HERBIVOR;
 }
 
 Carnivor::~Carnivor() {
@@ -60,6 +61,9 @@ void Carnivor::set_nutritional_value(uint32_t nutritional_value) {
   this->nutritional_value = nutritional_value;
 }
 
+void Carnivor::set_metabolic_rate(uint32_t metabolic_rate) {
+  this->metabolic_rate = metabolic_rate;
+}
 // gets
 uint32_t Carnivor::get_metabolic_rate() {
   return this->metabolic_rate;

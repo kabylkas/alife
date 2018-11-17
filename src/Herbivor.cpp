@@ -7,7 +7,8 @@ Herbivor::Herbivor(uint32_t metabolic_rate) {
 }
 
 Herbivor::Herbivor() {
-
+  this->type = HERBIVOR;
+  this->food_type = PLANT;
 }
 
 Herbivor::~Herbivor() {
@@ -58,6 +59,9 @@ void Herbivor::set_nutritional_value(uint32_t nutritional_value) {
   this->nutritional_value = nutritional_value;
 }
 
+void Herbivor::set_metabolic_rate(uint32_t metabolic_rate) {
+  this->metabolic_rate = metabolic_rate;
+}
 // gets
 uint32_t Herbivor::get_metabolic_rate() {
   return this->metabolic_rate;

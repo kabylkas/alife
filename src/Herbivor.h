@@ -18,6 +18,7 @@ class Herbivor : public Animal {
     ~Herbivor();
     // sets
     void set_nutritional_value(uint32_t nutritional_value);
+    void set_metabolic_rate(uint32_t metabolic_rate);
     // gets
     AgentType get_type();
     uint32_t get_nutritional_value();

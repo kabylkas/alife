@@ -23,7 +23,7 @@ void AlifeSim::init(std::string cfg_file_name) {
     // rand seed
     srand(SEED);
     // init the world
-    this->world.init(sim_configs.world_height, sim_configs.world_width, ALLOW_PLACE_SHARING);
+    this->world.init(sim_configs.world_height, sim_configs.world_width, sim_configs.allow_sharing);
 
     // init carnivaor
     liv_orgs.num_carnivors = sim_configs.num_carnivors;
@@ -214,7 +214,7 @@ void AlifeSim::sustain() {
 
 Animal* AlifeSim::get_random_herbivor() {
   // allocate agent
-  Animal* new_animal = new Herbivor(sim_configs.herb_metabolic_rate);
+  Animal* new_animal = new Herbivor();
 
   // get calculate initial member variable values
   uint32_t x, y;
@@ -223,6 +223,7 @@ Animal* AlifeSim::get_random_herbivor() {
   this->world.place_agent_rand(HERBIVOR, &x, &y);
   facing = (Direction)(rand() % 4);
   uint32_t nutritional_value = sim_configs.herb_nutritional_value;
+  uint32_t metabolic_rate = sim_configs.herb_metabolic_rate;
   energy_level = 100;
 
   // set initial values
@@ -234,13 +235,14 @@ Animal* AlifeSim::get_random_herbivor() {
   new_animal->set_world(&(this->world));
   new_animal->set_offsets(&(this->offsets));
   new_animal->set_nutritional_value(nutritional_value);
+  new_animal->set_metabolic_rate(metabolic_rate);
 
   return new_animal;
 }
 
 Animal* AlifeSim::get_random_carnivor() {
   // allocate agent
-  Animal* new_animal = new Carnivor(sim_configs.carn_metabolic_rate);
+  Animal* new_animal = new Carnivor();
 
   // get calculate initial member variable values
   uint32_t x, y;
@@ -249,6 +251,7 @@ Animal* AlifeSim::get_random_carnivor() {
   this->world.place_agent_rand(CARNIVOR, &x, &y);
   facing = (Direction)(rand() % 4);
   energy_level = 100;
+  uint32_t metabolic_rate = sim_configs.carn_metabolic_rate;
 
   // set initial values
   new_animal->set_id(id_generator.get_id());
@@ -258,7 +261,7 @@ Animal* AlifeSim::get_random_carnivor() {
   new_animal->set_energy(energy_level);
   new_animal->set_world(&(this->world));
   new_animal->set_offsets(&(this->offsets));
-  
+  new_animal->set_metabolic_rate(metabolic_rate); 
   return new_animal;
 }
 

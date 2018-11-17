@@ -51,6 +51,7 @@ class Animal {
     void set_id(uint64_t id);
     void set_age(uint64_t age);
     virtual void set_nutritional_value(uint32_t nutritional_value) {};
+    virtual void set_metabolic_rate(uint32_t metabolic_rate) {};
 
     //gets
     Brain* get_brain();
