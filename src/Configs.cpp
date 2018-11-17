@@ -16,6 +16,7 @@ Configs::Configs() {
   this->plant_nutritional_value = 0;
   this->sample_rate             = 100;
   this->repro_energy_level      = 170;
+  this->allow_sharing           = true;
 }
 
 Configs::~Configs() {
@@ -44,6 +45,7 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       bool min_num_carn_found    = false;
       bool min_num_herb_found    = false;
       bool min_num_plant_found   = false;
+      bool allow_sharing_found   = false;
 
       simulation_time_found = (line.find("simulation-time") != std::string::npos);
       num_carnivors_found   = (line.find("num-carnivors") != std::string::npos);
@@ -59,6 +61,7 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
       herb_nut_value_found  = (line.find("herbivor-nutritional-value") != std::string::npos);
       plant_nut_value_found = (line.find("plant-nutritional-value") != std::string::npos);
+      allow_sharing_found   = (line.find("allow-place-sharing") != std::string::npos);
 
 
       // Extract value
@@ -126,6 +129,10 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       {
         this->plant_nutritional_value = temp_value;
       } 
+      else if (allow_sharing_found) 
+      {
+        this->allow_sharing = (bool)temp_value;
+      }
       else
       {
         error_msg = "Unknown configuration variable: "+line;
