@@ -28,13 +28,13 @@ void AlifeSim::init(std::string cfg_file_name) {
     // init carnivaor
     liv_orgs.num_carnivors = sim_configs.num_carnivors;
     for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
-      liv_orgs.animals.push_back(this->get_random_carnivor());
+      liv_orgs.animals.push_back(this->get_random_animal(CARNIVOR));
     }
 
     // init herbivors
     liv_orgs.num_herbivors = sim_configs.num_herbivors;
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
-      liv_orgs.animals.push_back(this->get_random_herbivor());
+      liv_orgs.animals.push_back(this->get_random_animal(HERBIVOR));
     }
 
     // init herbivors
@@ -130,12 +130,11 @@ void AlifeSim::start() {
 
         // generate new animal
         Animal* child;
+        child = get_random_animal(parent->get_type());
         if (parent->get_type() == CARNIVOR) {
-          child = get_random_carnivor();
           liv_orgs.num_carnivors++;
           this->carn_reproductions_happened++;
         } else {
-          child = get_random_herbivor();
           liv_orgs.num_herbivors++;
           this->herb_reproductions_happened++;
         }
@@ -191,7 +190,7 @@ void AlifeSim::sustain() {
     #ifdef DEBUG
       std::cout << "Sustaining carnivors... Current: " << liv_orgs.num_carnivors << "; Min: " << sim_configs.min_num_carnivors << std::endl;
     #endif
-    liv_orgs.animals.push_back(this->get_random_carnivor());
+    liv_orgs.animals.push_back(this->get_random_animal(CARNIVOR));
     liv_orgs.num_carnivors++;
   }
 
@@ -199,7 +198,7 @@ void AlifeSim::sustain() {
     #ifdef DEBUG
       std::cout << "Sustaining herbivors... Current: " << liv_orgs.num_herbivors << "; Min: " << sim_configs.min_num_herbivors << std::endl;
     #endif
-    liv_orgs.animals.push_back(this->get_random_herbivor());
+    liv_orgs.animals.push_back(this->get_random_animal(HERBIVOR));
     liv_orgs.num_herbivors++;
   }
 
@@ -212,48 +211,26 @@ void AlifeSim::sustain() {
   }
 }
 
-Animal* AlifeSim::get_random_herbivor() {
+Animal* AlifeSim::get_random_animal(AgentType type) {
   // allocate agent
-  Animal* new_animal = new Herbivor();
+  Animal* new_animal;
+
+  if (type == CARNIVOR) {
+    new_animal = new Carnivor();
+  } else {
+    new_animal = new Herbivor();
+  }
 
   // get calculate initial member variable values
   uint32_t x, y;
   Direction facing;
   uint16_t energy_level;
-  this->world.place_agent_rand(HERBIVOR, &x, &y);
-  facing = (Direction)(rand() % 4);
-  uint32_t nutritional_value = sim_configs.herb_nutritional_value;
-  uint32_t metabolic_rate = sim_configs.herb_metabolic_rate;
-  energy_level = 100;
-
-  // set initial values
-  new_animal->set_id(id_generator.get_id());
-  new_animal->set_x(x);
-  new_animal->set_y(y);
-  new_animal->set_direction(facing);
-  new_animal->set_energy(energy_level);
-  new_animal->set_world(&(this->world));
-  new_animal->set_offsets(&(this->offsets));
-  new_animal->set_nutritional_value(nutritional_value);
-  new_animal->set_metabolic_rate(metabolic_rate);
-
-  return new_animal;
-}
-
-Animal* AlifeSim::get_random_carnivor() {
-  // allocate agent
-  Animal* new_animal = new Carnivor();
-
-  // get calculate initial member variable values
-  uint32_t x, y;
-  Direction facing;
-  uint16_t energy_level;
-  this->world.place_agent_rand(CARNIVOR, &x, &y);
+  this->world.place_agent_rand(type, &x, &y);
   facing = (Direction)(rand() % 4);
   energy_level = 100;
   uint32_t metabolic_rate = sim_configs.carn_metabolic_rate;
 
-  // set initial values
+  // set common initial values
   new_animal->set_id(id_generator.get_id());
   new_animal->set_x(x);
   new_animal->set_y(y);
@@ -262,6 +239,13 @@ Animal* AlifeSim::get_random_carnivor() {
   new_animal->set_world(&(this->world));
   new_animal->set_offsets(&(this->offsets));
   new_animal->set_metabolic_rate(metabolic_rate); 
+
+  // set herbivor specific values
+  if (type == HERBIVOR) {
+    uint32_t nutritional_value = sim_configs.herb_nutritional_value;
+    new_animal->set_nutritional_value(nutritional_value);
+  }
+
   return new_animal;
 }
 

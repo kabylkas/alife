@@ -21,8 +21,7 @@ class AlifeSim {
     World world;
     bool read_config_file(std::string cfg_file_name);
     IdGenerator id_generator;
-    Animal* get_random_herbivor();
-    Animal* get_random_carnivor();
+    Animal* get_random_animal(AgentType type);
     Plant get_random_plant();
     Offsets offsets;
 
