@@ -4,3 +4,14 @@
 For full information read the pdf document under "docs" directory.
 
 In this project, I implement Alife simulation that demonstrates agents in food chain competing in artificial environment.
+
+# Quick set up
+```
+git clone https://github.com/kabylkas/alife.git
+cd alife
+mkdir build
+cd build
+cmake ../
+cp ../simulation.cfg .
+./alife
+```
