@@ -22,3 +22,6 @@ Running simulation:
 cp ../simulation.cfg .
 ./alife
 ```
+
+## Viewing statistics
+coming soon...
