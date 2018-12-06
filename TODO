@@ -1,1 +1,4 @@
 introduce concept of epochs, everytime get the best model of carnivor and herbivor and mutate
+
+look at this vis:
+http://mbostock.github.io/d3/talk/20111018/area-gradient.html

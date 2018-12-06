@@ -23,8 +23,8 @@ void Carnivor::eat(LivingOrganisms* liv_orgs) {
   // observe proximity
   uint32_t x, y;
   if (this->eyes.in_proximity(HERBIVOR, this->x, this->y, this->facing, &x, &y)) {
-    for (uint32_t i = 0; i < liv_orgs->animals.size(); i++) {
-      Animal* prey = liv_orgs->animals[i];
+    for (uint32_t i = 0; i < liv_orgs->get_num_animals(); i++) {
+      Animal* prey = liv_orgs->get_animal(i);
       if (prey->get_x() == x && prey->get_y() == y) {
         if (prey->get_type() == this->food_type && prey->is_alive()) {
           #ifdef TRACE
@@ -41,19 +41,6 @@ void Carnivor::eat(LivingOrganisms* liv_orgs) {
       }
     }
   }
-}
-
-void Carnivor::reproduce(LivingOrganisms* liv_orgs) {
-  this->energy_level /= 2; 
-  Animal* new_animal = new Carnivor();
-  *new_animal = *(this);
-  new_animal->new_born_reset(liv_orgs->id_generator->get_id());
-  new_animal->get_brain()->mutate(0.2);
-  liv_orgs->animals.push_back(new_animal);
-  liv_orgs->num_carnivors++;
-  #ifdef TRACE
-    std::cout << "REPRODUCE: Carnivor with id: "<< this->id <<" is reproducing. Child id: " << new_animal->get_id() << std::endl;
-  #endif
 }
 
 // sets

@@ -24,7 +24,6 @@ class Animal {
     virtual void eat(LivingOrganisms* liv_orgs) {};
     void turn_left();
     void turn_right();
-    virtual void reproduce(LivingOrganisms* liv_orgs) {};
 
   public:
     Animal();

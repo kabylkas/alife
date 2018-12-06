@@ -7,9 +7,11 @@ before_script:
   - mkdir build
   - cd build
   - cmake ..
+  - cp ../simulation.cfg .
 
 script:
   - make
+  - ./alife
   - cd ../
   - mkdir testing
   - cd testing

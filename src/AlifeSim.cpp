@@ -26,21 +26,18 @@ void AlifeSim::init(std::string cfg_file_name) {
     this->world.init(sim_configs.world_height, sim_configs.world_width, sim_configs.allow_sharing);
 
     // init carnivaor
-    liv_orgs.num_carnivors = sim_configs.num_carnivors;
     for (uint32_t i = 0; i < sim_configs.num_carnivors; i++) {
-      liv_orgs.animals.push_back(this->get_random_animal(CARNIVOR));
+      liv_orgs.add_animal(this->get_random_animal(CARNIVOR));
     }
 
     // init herbivors
-    liv_orgs.num_herbivors = sim_configs.num_herbivors;
     for (uint32_t i = 0; i < sim_configs.num_herbivors; i++) {
-      liv_orgs.animals.push_back(this->get_random_animal(HERBIVOR));
+      liv_orgs.add_animal(this->get_random_animal(HERBIVOR));
     }
 
     // init herbivors
-    liv_orgs.num_plants = sim_configs.num_plants;
     for (uint32_t i = 0; i < sim_configs.num_plants; i++) {
-      liv_orgs.plants.push_back(this->get_random_plant());
+      liv_orgs.add_plant(this->get_random_plant());
     }
 
     #ifdef DEBUG
@@ -52,77 +49,78 @@ void AlifeSim::init(std::string cfg_file_name) {
 void AlifeSim::start() {
   for (uint64_t current_time = 0; current_time < sim_configs.time; current_time++) {
     // perform action
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      if (liv_orgs.animals[i]->is_alive()) {
-        liv_orgs.animals[i]->take_action(&liv_orgs);
+    for (uint32_t i = 0; i < liv_orgs.get_num_animals(); i++) {
+      if (liv_orgs.get_animal(i)->is_alive()) {
+        liv_orgs.get_animal(i)->take_action(&liv_orgs);
       }
     }
 
     // increase age of the animals
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      liv_orgs.animals[i]->increment_age();
-      if (this->max_age < liv_orgs.animals[i]->get_age()) {
-        this->max_age = liv_orgs.animals[i]->get_age();
+    for (uint32_t i = 0; i < liv_orgs.get_num_animals(); i++) {
+      liv_orgs.get_animal(i)->increment_age();
+      uint64_t age = liv_orgs.get_animal(i)->get_age();
+      if (this->max_age < age) {
+        this->max_age = age;
       }
     }
 
     // update the living organisms, remove those that
     // are killed or used up all of their energy
     // animals:
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      if (liv_orgs.animals[i]->is_dead()) {
+    for (uint32_t i = 0; i < liv_orgs.get_num_animals(); i++) {
+      if (liv_orgs.get_animal(i)->is_dead()) {
         #ifdef TRACE
-          std::cout << "DEATH: Animal with id " << liv_orgs.animals[i]->get_id() << " is dead" << std::endl;
+          std::cout << "DEATH: Animal with id " << liv_orgs.get_animal(i)->get_id() << " is dead" << std::endl;
         #endif
-        Animal* dead_animal = liv_orgs.animals[i];
+        Animal* dead_animal = liv_orgs.get_animal(i);
         AgentType type = dead_animal->get_type();
-        // update the count in the simulation
+
+        // stats gathering
         if (type == CARNIVOR) {
-          liv_orgs.num_carnivors--;
           this->carn_death_happened++;
         } else {
-          liv_orgs.num_herbivors--;
           this->herb_death_happened++;
           if (dead_animal->is_killed()) {
             this->herbs_eatan++;
           }
         }
+
         // erase dead animal
         this->world.remove_agent_from(type, dead_animal->get_x(), dead_animal->get_y());
-        delete dead_animal;
-        liv_orgs.animals.erase(liv_orgs.animals.begin() + i);
+        liv_orgs.remove_animal(i);
 
         // decrease i since indexing has changed after erase
         i -= 1;
       }
     }
+
     // plants
-    for (uint32_t i = 0; i < liv_orgs.plants.size(); i++) {
-      if (liv_orgs.plants[i].is_dead()) {
+    for (uint32_t i = 0; i < liv_orgs.get_num_plants(); i++) {
+      if (liv_orgs.get_plant(i)->is_dead()) {
         #ifdef TRACE
           std::cout << "DEATH: Plant is dead" << std::endl;
         #endif
-        liv_orgs.plants.erase(liv_orgs.plants.begin() + i);
-        liv_orgs.num_plants--;
+        liv_orgs.remove_plant(i);
+
+        //stats gathering
         this->plants_eatan++;
+
         // decrease i since indexing has changed after erase
         i -= 1;
       }
     }
 
     #ifdef TRACE
-      std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.size() << std::endl;
+      std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.get_num_animals() << std::endl;
     #endif
-    assert(liv_orgs.num_carnivors + liv_orgs.num_herbivors == liv_orgs.animals.size());
-    assert(liv_orgs.num_plants == liv_orgs.plants.size());
 
     // sustain the life in simulation
     this->sustain();
 
-    //reproduce to hose that have enough energy
+    //reproduce those that have enough energy
     std::vector<Animal*> new_born_animals;
-    for (uint32_t i = 0; i < liv_orgs.animals.size(); i++) {
-      Animal* parent = liv_orgs.animals[i];
+    for (uint32_t i = 0; i < liv_orgs.get_num_animals(); i++) {
+      Animal* parent = liv_orgs.get_animal(i);
       if (parent->get_energy() > sim_configs.repro_energy_level) {
         // update energy, reproduction takes energy
         uint32_t new_energy = parent->get_energy() / 2;
@@ -131,11 +129,11 @@ void AlifeSim::start() {
         // generate new animal
         Animal* child;
         child = get_random_animal(parent->get_type());
+        
+        // stats gathering
         if (parent->get_type() == CARNIVOR) {
-          liv_orgs.num_carnivors++;
           this->carn_reproductions_happened++;
         } else {
-          liv_orgs.num_herbivors++;
           this->herb_reproductions_happened++;
         }
 
@@ -152,21 +150,24 @@ void AlifeSim::start() {
         new_born_animals.push_back(child);
       }
     }
+
     // place new borns to the life
     while (new_born_animals.size() > 0) {
-      liv_orgs.animals.push_back(new_born_animals[new_born_animals.size() - 1]);
+      liv_orgs.add_animal(new_born_animals[new_born_animals.size() - 1]);
       new_born_animals.pop_back();
     }
 
-    // some initial stats update
-    if (this->max_population < liv_orgs.animals.size()) {
-      this->max_population = liv_orgs.animals.size();
+    // stats gathering
+    uint64_t current_population = liv_orgs.get_num_animals();
+    if (current_population > this->max_population) {
+      this->max_population = current_population;
     }
 
+    // stats report
     if (current_time % sim_configs.sample_rate == 0) {
       // spit out some report
       std::cout << current_time << ", ";
-      std::cout << liv_orgs.animals.size() << ", ";
+      std::cout << liv_orgs.get_num_animals() << ", ";
       std::cout << this->carn_reproductions_happened << ", ";
       std::cout << this->herb_reproductions_happened << ", ";
       std::cout << this->carn_death_happened << ", ";
@@ -186,28 +187,25 @@ void AlifeSim::start() {
 }
 
 void AlifeSim::sustain() {
-  while (liv_orgs.num_carnivors < sim_configs.min_num_carnivors) {
+  while (liv_orgs.get_num_carnivors() < sim_configs.min_num_carnivors) {
     #ifdef DEBUG
-      std::cout << "Sustaining carnivors... Current: " << liv_orgs.num_carnivors << "; Min: " << sim_configs.min_num_carnivors << std::endl;
+      std::cout << "Sustaining carnivors... Current: " << liv_orgs.get_num_carnivors() << "; Min: " << sim_configs.min_num_carnivors << std::endl;
     #endif
-    liv_orgs.animals.push_back(this->get_random_animal(CARNIVOR));
-    liv_orgs.num_carnivors++;
+    liv_orgs.add_animal(this->get_random_animal(CARNIVOR));
   }
 
-  while (liv_orgs.num_herbivors < sim_configs.min_num_herbivors) {
+  while (liv_orgs.get_num_herbivors() < sim_configs.min_num_herbivors) {
     #ifdef DEBUG
-      std::cout << "Sustaining herbivors... Current: " << liv_orgs.num_herbivors << "; Min: " << sim_configs.min_num_herbivors << std::endl;
+      std::cout << "Sustaining herbivors... Current: " << liv_orgs.get_num_herbivors() << "; Min: " << sim_configs.min_num_herbivors << std::endl;
     #endif
-    liv_orgs.animals.push_back(this->get_random_animal(HERBIVOR));
-    liv_orgs.num_herbivors++;
+    liv_orgs.add_animal(this->get_random_animal(HERBIVOR));
   }
 
-  while (liv_orgs.num_plants < sim_configs.min_num_plants) {
+  while (liv_orgs.get_num_plants() < sim_configs.min_num_plants) {
     #ifdef DEBUG
-      std::cout << "Sustaining plants... Current: " << liv_orgs.num_plants << "; Min: " << sim_configs.min_num_plants << std::endl;
+      std::cout << "Sustaining plants... Current: " << liv_orgs.get_num_plants() << "; Min: " << sim_configs.min_num_plants << std::endl;
     #endif
-    liv_orgs.plants.push_back(this->get_random_plant());
-    liv_orgs.num_plants++;
+    liv_orgs.add_plant(this->get_random_plant());
   }
 }
 
