@@ -32,36 +32,21 @@ bool Configs::read_config_file(std::string cfg_file_name) {
     std::string line;
     while (std::getline(cfg_file, line)) {
       // Check for valid simulation variable
-      bool simulation_time_found = false;
-      bool num_carnivors_found   = false;
-      bool num_herbivors_found   = false;
-      bool num_plants_found      = false;
-      bool world_height_found    = false;
-      bool world_width_found     = false;
-      bool carn_m_rate_found     = false;
-      bool herb_m_rate_found     = false;
-      bool herb_nut_value_found  = false;
-      bool plant_nut_value_found = false;
-      bool min_num_carn_found    = false;
-      bool min_num_herb_found    = false;
-      bool min_num_plant_found   = false;
-      bool allow_sharing_found   = false;
-
-      simulation_time_found = (line.find("simulation-time") != std::string::npos);
-      num_carnivors_found   = (line.find("num-carnivors") != std::string::npos);
-      num_herbivors_found   = (line.find("num-herbivors") != std::string::npos);
-      num_plants_found      = (line.find("num-plants") != std::string::npos);
-      min_num_carn_found    = (line.find("min-num-carnivors") != std::string::npos);
-      min_num_herb_found    = (line.find("min-num-herbivors") != std::string::npos);
-      min_num_plant_found   = (line.find("min-num-plants") != std::string::npos);
-      world_height_found    = (line.find("world-height") != std::string::npos);
-      world_width_found     = (line.find("world-width") != std::string::npos);
-      carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
-      herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
-      herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
-      herb_nut_value_found  = (line.find("herbivor-nutritional-value") != std::string::npos);
-      plant_nut_value_found = (line.find("plant-nutritional-value") != std::string::npos);
-      allow_sharing_found   = (line.find("allow-place-sharing") != std::string::npos);
+      bool simulation_time_found = (line.find("simulation-time") != std::string::npos);
+      bool num_carnivors_found   = (line.find("num-carnivors") != std::string::npos);
+      bool num_herbivors_found   = (line.find("num-herbivors") != std::string::npos);
+      bool num_plants_found      = (line.find("num-plants") != std::string::npos);
+      bool min_num_carn_found    = (line.find("min-num-carnivors") != std::string::npos);
+      bool min_num_herb_found    = (line.find("min-num-herbivors") != std::string::npos);
+      bool min_num_plant_found   = (line.find("min-num-plants") != std::string::npos);
+      bool world_height_found    = (line.find("world-height") != std::string::npos);
+      bool world_width_found     = (line.find("world-width") != std::string::npos);
+      bool carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
+      bool herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
+      bool herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
+      bool herb_nut_value_found  = (line.find("herbivor-nutritional-value") != std::string::npos);
+      bool plant_nut_value_found = (line.find("plant-nutritional-value") != std::string::npos);
+      bool allow_sharing_found   = (line.find("allow-place-sharing") != std::string::npos);
 
 
       // Extract value
