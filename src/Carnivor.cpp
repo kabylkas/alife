@@ -2,11 +2,14 @@
 
 Carnivor::Carnivor(uint32_t metabolic_rate) {
   this->metabolic_rate = metabolic_rate;
+  this->nutritional_value = 0;
   this->type = CARNIVOR;
   this->food_type = HERBIVOR;
 }
 
 Carnivor::Carnivor() {
+  this->metabolic_rate = 0;
+  this->nutritional_value = 0;
   this->type = CARNIVOR;
   this->food_type = HERBIVOR;
 }

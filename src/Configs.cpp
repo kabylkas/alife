@@ -14,6 +14,7 @@ Configs::Configs() {
   this->herb_metabolic_rate     = 0;
   this->herb_nutritional_value  = 0;
   this->plant_nutritional_value = 0;
+  this->num_carnivors           = 0;
   this->sample_rate             = 100;
   this->repro_energy_level      = 170;
   this->allow_sharing           = true;
@@ -42,7 +43,6 @@ bool Configs::read_config_file(std::string cfg_file_name) {
       bool world_height_found    = (line.find("world-height") != std::string::npos);
       bool world_width_found     = (line.find("world-width") != std::string::npos);
       bool carn_m_rate_found     = (line.find("carnivor-metabolic-rate") != std::string::npos);
-      bool herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
       bool herb_m_rate_found     = (line.find("herbivor-metabolic-rate") != std::string::npos);
       bool herb_nut_value_found  = (line.find("herbivor-nutritional-value") != std::string::npos);
       bool plant_nut_value_found = (line.find("plant-nutritional-value") != std::string::npos);

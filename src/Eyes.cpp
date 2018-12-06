@@ -1,7 +1,9 @@
 #include "Eyes.h"
 
 Eyes::Eyes() {
-
+  this->offsets = NULL;
+  this->brain = NULL;
+  this->world = NULL;
 }
 
 Eyes::~Eyes() {

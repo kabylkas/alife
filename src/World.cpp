@@ -1,6 +1,8 @@
 #include "World.h"
 
 World::World() {
+  this->width = 0;
+  this->height = 0;
   this->allow_share = false;
 }
 
