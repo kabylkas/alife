@@ -111,7 +111,7 @@ void AlifeSim::start() {
     }
 
     #ifdef TRACE
-      std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.animals.get_num_animals() << std::endl;
+      std::cout << current_time << ": ITER_END: Animals in simulations: " << liv_orgs.get_num_animals() << std::endl;
     #endif
 
     // sustain the life in simulation
